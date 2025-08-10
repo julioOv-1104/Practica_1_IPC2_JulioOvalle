@@ -6,6 +6,6 @@ public enum TipoParticipantes {
     
     ESTUDIANTE,
     PROFESIONAL,
-    INVITADO
+    INVITADO;
     
 }
