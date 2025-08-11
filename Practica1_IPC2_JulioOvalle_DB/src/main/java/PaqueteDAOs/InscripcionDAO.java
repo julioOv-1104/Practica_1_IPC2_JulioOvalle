@@ -2,6 +2,7 @@ package PaqueteDAOs;
 
 import PaqueteEntidades.Inscripcion;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 public class InscripcionDAO extends EntidadDAO {
 
@@ -25,6 +26,7 @@ public class InscripcionDAO extends EntidadDAO {
             
             System.out.println("Rows affected "+ n);
             System.out.println("SQL ejecutado " + ps );
+            JOptionPane.showMessageDialog(null, "Participante inscrito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
             
             //ps.close();
             //conn.close();

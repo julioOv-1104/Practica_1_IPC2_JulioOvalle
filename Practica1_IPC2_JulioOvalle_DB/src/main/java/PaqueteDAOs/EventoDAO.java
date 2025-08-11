@@ -2,6 +2,7 @@ package PaqueteDAOs;
 
 import PaqueteEntidades.Evento;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 public class EventoDAO extends EntidadDAO {
 
@@ -27,6 +28,7 @@ public class EventoDAO extends EntidadDAO {
             int n = ps.executeUpdate();
             System.out.println("sql ejecutado: " + ps);
             System.out.println("Rows affected " + n);
+            JOptionPane.showMessageDialog(null, "Evento registrado con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
             
         } catch (SQLException e) {
             //e.printStackTrace();

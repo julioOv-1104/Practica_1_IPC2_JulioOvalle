@@ -5,6 +5,7 @@ import PaqueteEntidades.Pago;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 public class PagoDAO extends EntidadDAO {
 
@@ -33,6 +34,7 @@ public class PagoDAO extends EntidadDAO {
 
             System.out.println("Rows affected " + n);
             System.out.println("SQL ejecutado " + ps);
+            JOptionPane.showMessageDialog(null, "Pago realizado con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
 
             /*if (true) {
                 throw new RuntimeException("Fallo por algo");

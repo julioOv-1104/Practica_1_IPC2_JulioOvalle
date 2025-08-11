@@ -3,6 +3,7 @@ package PaqueteDAOs;
 import PaqueteEntidades.*;
 import java.sql.*;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class ParticipanteDAO extends EntidadDAO {
 
@@ -26,6 +27,7 @@ public class ParticipanteDAO extends EntidadDAO {
             int n = ps.executeUpdate();
             System.out.println("sql ejecutado: " + ps);
             System.out.println("Rows affected " + n);
+            JOptionPane.showMessageDialog(null, "Participante registrado con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
 
             //ps.close();
             //conn.close();

@@ -51,16 +51,16 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="jLabel4" max="32767" attributes="0"/>
-                                          <Component id="horaIni" max="32767" attributes="0"/>
+                                          <Component id="txthoraIni" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                          <Component id="horaFin" min="-2" pref="108" max="-2" attributes="0"/>
+                                          <Component id="txthoraFin" min="-2" pref="108" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="titulo" min="-2" pref="107" max="-2" attributes="0"/>
+                                          <Component id="txttitulo" min="-2" pref="107" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
@@ -112,9 +112,9 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="horaIni" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="horaFin" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="titulo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txthoraIni" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txthoraFin" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txttitulo" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="36" max="32767" attributes="0"/>
               <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
@@ -160,21 +160,21 @@
         <Property name="text" type="java.lang.String" value="Hora inicio (HH:mm)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="horaIni">
+    <Component class="javax.swing.JTextField" name="txthoraIni">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hora fin (HH:mm)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="horaFin">
+    <Component class="javax.swing.JTextField" name="txthoraFin">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
         <Property name="text" type="java.lang.String" value="Titulo"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="titulo">
+    <Component class="javax.swing.JTextField" name="txttitulo">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
