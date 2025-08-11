@@ -11,11 +11,11 @@ public class InscripcionDAO extends EntidadDAO {
 
     public void inscribirParticipante(Inscripcion inscripcion) {
 
-        String INSCRIBIR_PARTICIPANTE = "INSERT INTO inscripcion (tipo_inscripcion , email_participante, "
+        String inscribirParticipante = "INSERT INTO inscripcion (tipo_inscripcion , email_participante, "
                 + "codigo_evento, es_valida) VALUES(?,?,?,?)";
 
         try {
-            PreparedStatement ps = getConn().prepareStatement(INSCRIBIR_PARTICIPANTE);
+            PreparedStatement ps = getConn().prepareStatement(inscribirParticipante);
             ps.setString(1, inscripcion.getTipoInscripcion().name());
             ps.setString(2, inscripcion.geteMailParticipante());
             ps.setString(3, inscripcion.getCodigoEvento());

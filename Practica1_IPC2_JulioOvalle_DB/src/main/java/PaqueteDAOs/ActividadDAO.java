@@ -10,14 +10,14 @@ public class ActividadDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
-    public void registrarEvento(Actividad actividad) {//Registra el actividad en la BD
+    public void registrarActividad(Actividad actividad) {//Registra el actividad en la BD
 
-        String INSERTAR_ACTIVIDAD = "INSERT INTO actividad (codigo_actividad, codigo_evento, email_encargado, "
+        String insertarActividad = "INSERT INTO actividad (codigo_actividad, codigo_evento, email_encargado, "
                 + "titulo,tipo_actividad, cupo_maximo,hora_inicio, hora_fin) "
                 + "VALUES(?,?,?,?,?,?,?,?)";
 
         try {
-            PreparedStatement ps = getConn().prepareStatement(INSERTAR_ACTIVIDAD);
+            PreparedStatement ps = getConn().prepareStatement(insertarActividad);
 
             ps.setString(1, actividad.getCodigoActividad());
             ps.setString(2, actividad.getCodigoEvento());

@@ -31,6 +31,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuInscribir = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -125,6 +126,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 jMenu5ActionPerformed(evt);
             }
         });
+
+        jMenuItem5.setText("Pagar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem5);
+
         jMenuBar1.add(jMenu5);
 
         jMenu6.setText("Asistencia");
@@ -204,6 +214,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        limpiarPantalla();
+        IFPagar pagar = new IFPagar(conn);
+        vistaEscritorio.add(pagar);
+
+        pagar.show();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     private void limpiarPantalla() {
 
         for (JInternalFrame frame : vistaEscritorio.getAllFrames()) {
@@ -224,6 +242,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JMenu menuInscribir;
     private javax.swing.JDesktopPane vistaEscritorio;

@@ -12,11 +12,11 @@ public class EventoDAO extends EntidadDAO {
 
     public void registrarEvento(Evento evento) {//Registra el evento en la BD
 
-        String INSERTAR_EVENTO = "INSERT INTO evento (codigo_evento, fecha, tipo_evento,titulo, ubicacion, cupo_maximo) "
+        String insertarEvento = "INSERT INTO evento (codigo_evento, fecha, tipo_evento,titulo, ubicacion, cupo_maximo) "
                 + "VALUES(?,?,?,?,?,?)";
 
         try {
-            PreparedStatement ps = getConn().prepareStatement(INSERTAR_EVENTO);
+            PreparedStatement ps = getConn().prepareStatement(insertarEvento);
             ps.setString(1, evento.getCodigoEvento());
             ps.setDate(2, java.sql.Date.valueOf(evento.getFecha()));
             ps.setString(3, evento.getTipo().name());

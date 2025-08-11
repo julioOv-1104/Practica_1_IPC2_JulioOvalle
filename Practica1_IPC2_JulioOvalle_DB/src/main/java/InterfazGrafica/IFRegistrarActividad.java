@@ -232,7 +232,7 @@ public class IFRegistrarActividad extends javax.swing.JInternalFrame {
         }
 
         Actividad nuevaActividad = new Actividad(codA, codE, correo, titulo, tipoA, cupo, horaIn, horaFin);
-        actividadDAO.registrarEvento(nuevaActividad);
+        actividadDAO.registrarActividad(nuevaActividad);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

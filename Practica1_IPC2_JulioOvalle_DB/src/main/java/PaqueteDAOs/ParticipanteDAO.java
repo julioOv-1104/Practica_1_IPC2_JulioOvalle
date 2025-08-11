@@ -13,11 +13,11 @@ public class ParticipanteDAO extends EntidadDAO {
 
     public void registrarParticipante(Participante participante) {
 
-        String REGISTRAR_PARTICIPANTE = "INSERT INTO participante (email,institucion,tipo_participante,nombre)"
+        String registrarParticipante = "INSERT INTO participante (email,institucion,tipo_participante,nombre)"
                 + "VALUES (?,?,?,?)";
 
         try {
-            PreparedStatement ps = getConn().prepareStatement(REGISTRAR_PARTICIPANTE);
+            PreparedStatement ps = getConn().prepareStatement(registrarParticipante);
             ps.setString(1, participante.geteMail());
             ps.setString(2, participante.getInstitucion());
             ps.setString(3, participante.getTipo().name());
