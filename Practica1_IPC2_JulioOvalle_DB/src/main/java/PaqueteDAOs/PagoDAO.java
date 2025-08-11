@@ -36,9 +36,7 @@ public class PagoDAO extends EntidadDAO {
             System.out.println("SQL ejecutado " + ps);
             JOptionPane.showMessageDialog(null, "Pago realizado con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
 
-            /*if (true) {
-                throw new RuntimeException("Fallo por algo");
-            }*/
+//Segunda sentencia------------------------------------------------------------------------------------------------------
             
             
             PreparedStatement ps2 = getConn().prepareStatement(validarInscripcion);
@@ -64,25 +62,6 @@ public class PagoDAO extends EntidadDAO {
 
             e.printStackTrace();
         }
-
-
-        /*try {
-            PreparedStatement ps = getConn().prepareStatement(registrarPago);
-            ps.setString(1, pago.getEmail_participante());
-            ps.setString(2, pago.getCodigo_evento());
-            ps.setString(3, pago.getMetodoDePago().name());
-
-            int n = ps.executeUpdate();
-
-            System.out.println("Rows affected " + n);
-            System.out.println("SQL ejecutado " + ps);
-
-            //ps.close();
-            //conn.close();
-        } catch (SQLException e) {
-            //e.printStackTrace();
-            System.out.println("Error al registrar pago");
-        }*/
     }
 
 }

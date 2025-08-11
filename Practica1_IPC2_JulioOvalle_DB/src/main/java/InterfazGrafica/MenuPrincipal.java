@@ -24,17 +24,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         vistaEscritorio = new javax.swing.JDesktopPane();
         btnSalir = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        MenuRegistrar = new javax.swing.JMenu();
+        menuRegistrarEvento = new javax.swing.JMenuItem();
+        menuRegistrarActividad = new javax.swing.JMenuItem();
+        menuRegistrarParticipante = new javax.swing.JMenuItem();
         menuInscribir = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
+        menuInscribirParticipante = new javax.swing.JMenuItem();
+        menuPago = new javax.swing.JMenu();
+        menuPagoInscripcion = new javax.swing.JMenuItem();
+        menuAsisitencia = new javax.swing.JMenu();
+        menuRegistrarAsistencia = new javax.swing.JMenuItem();
+        menuCargarArchivo = new javax.swing.JMenu();
+        menuReportes = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,33 +76,33 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addComponent(vistaEscritorio)
         );
 
-        jMenu1.setText("Registrar ");
+        MenuRegistrar.setText("Registrar ");
 
-        jMenuItem1.setText("Evento");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        menuRegistrarEvento.setText("Evento");
+        menuRegistrarEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                menuRegistrarEventoActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        MenuRegistrar.add(menuRegistrarEvento);
 
-        jMenuItem2.setText("Actividad");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        menuRegistrarActividad.setText("Actividad");
+        menuRegistrarActividad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                menuRegistrarActividadActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        MenuRegistrar.add(menuRegistrarActividad);
 
-        jMenuItem3.setText("Participante");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        menuRegistrarParticipante.setText("Participante");
+        menuRegistrarParticipante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                menuRegistrarParticipanteActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        MenuRegistrar.add(menuRegistrarParticipante);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(MenuRegistrar);
 
         menuInscribir.setText("Inscribir a Evento");
         menuInscribir.addActionListener(new java.awt.event.ActionListener() {
@@ -110,41 +111,50 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem4.setText("Inscribir");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        menuInscribirParticipante.setText("Inscribir");
+        menuInscribirParticipante.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                menuInscribirParticipanteActionPerformed(evt);
             }
         });
-        menuInscribir.add(jMenuItem4);
+        menuInscribir.add(menuInscribirParticipante);
 
         jMenuBar1.add(menuInscribir);
 
-        jMenu5.setText("Pago");
-        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+        menuPago.setText("Pago");
+        menuPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu5ActionPerformed(evt);
+                menuPagoActionPerformed(evt);
             }
         });
 
-        jMenuItem5.setText("Pagar");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        menuPagoInscripcion.setText("Pagar");
+        menuPagoInscripcion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                menuPagoInscripcionActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem5);
+        menuPago.add(menuPagoInscripcion);
 
-        jMenuBar1.add(jMenu5);
+        jMenuBar1.add(menuPago);
 
-        jMenu6.setText("Asistencia");
-        jMenuBar1.add(jMenu6);
+        menuAsisitencia.setText("Asistencia");
 
-        jMenu7.setText("Cargar Archivo");
-        jMenuBar1.add(jMenu7);
+        menuRegistrarAsistencia.setText("Registrar Asistecia");
+        menuRegistrarAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuRegistrarAsistenciaActionPerformed(evt);
+            }
+        });
+        menuAsisitencia.add(menuRegistrarAsistencia);
 
-        jMenu8.setText("Reportes");
-        jMenuBar1.add(jMenu8);
+        jMenuBar1.add(menuAsisitencia);
+
+        menuCargarArchivo.setText("Cargar Archivo");
+        jMenuBar1.add(menuCargarArchivo);
+
+        menuReportes.setText("Reportes");
+        jMenuBar1.add(menuReportes);
 
         setJMenuBar(jMenuBar1);
 
@@ -162,16 +172,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void menuRegistrarActividadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRegistrarActividadActionPerformed
 
         limpiarPantalla();
 
         IFRegistrarActividad regActi = new IFRegistrarActividad(conn);
         vistaEscritorio.add(regActi);
         regActi.show();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_menuRegistrarActividadActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void menuRegistrarParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRegistrarParticipanteActionPerformed
 
         limpiarPantalla();
 
@@ -180,13 +190,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         partici.show();
 
 
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_menuRegistrarParticipanteActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnSalirActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void menuRegistrarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRegistrarEventoActionPerformed
 
         limpiarPantalla();
 
@@ -194,17 +204,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         vistaEscritorio.add(event);
 
         event.show();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_menuRegistrarEventoActionPerformed
 
     private void menuInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInscribirActionPerformed
 
     }//GEN-LAST:event_menuInscribirActionPerformed
 
-    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+    private void menuPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPagoActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_jMenu5ActionPerformed
+    }//GEN-LAST:event_menuPagoActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void menuInscribirParticipanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInscribirParticipanteActionPerformed
 
         limpiarPantalla();
         IFInscripcion insc = new IFInscripcion(conn);
@@ -212,15 +222,23 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         insc.show();
 
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_menuInscribirParticipanteActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void menuPagoInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPagoInscripcionActionPerformed
         limpiarPantalla();
         IFPagar pagar = new IFPagar(conn);
         vistaEscritorio.add(pagar);
 
         pagar.show();
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_menuPagoInscripcionActionPerformed
+
+    private void menuRegistrarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRegistrarAsistenciaActionPerformed
+        limpiarPantalla();
+        /*IFregistrarAsistencia asist = new IFRegistrarAsistencia(conn);
+        vistaEscritorio.add(asist);
+        
+        asist.show();*/
+    }//GEN-LAST:event_menuRegistrarAsistenciaActionPerformed
 
     private void limpiarPantalla() {
 
@@ -231,20 +249,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu MenuRegistrar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JMenu menuAsisitencia;
+    private javax.swing.JMenu menuCargarArchivo;
     private javax.swing.JMenu menuInscribir;
+    private javax.swing.JMenuItem menuInscribirParticipante;
+    private javax.swing.JMenu menuPago;
+    private javax.swing.JMenuItem menuPagoInscripcion;
+    private javax.swing.JMenuItem menuRegistrarActividad;
+    private javax.swing.JMenuItem menuRegistrarAsistencia;
+    private javax.swing.JMenuItem menuRegistrarEvento;
+    private javax.swing.JMenuItem menuRegistrarParticipante;
+    private javax.swing.JMenu menuReportes;
     private javax.swing.JDesktopPane vistaEscritorio;
     // End of variables declaration//GEN-END:variables
 }
