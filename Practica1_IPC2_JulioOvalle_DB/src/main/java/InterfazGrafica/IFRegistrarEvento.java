@@ -9,8 +9,10 @@ import javax.swing.JOptionPane;
 
 public class IFRegistrarEvento extends javax.swing.JInternalFrame {
 
-    Connection conn;
-    EventoDAO eventoDAO;
+    private Connection conn;
+    private EventoDAO eventoDAO;
+    private final String ATRIBUTO = "codigo_evento";
+    private final String ENTIDAD = "evento";
 
     public IFRegistrarEvento(Connection conn) {
         initComponents();
@@ -140,10 +142,10 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCodigoActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
-        validarCampo();
+        validarCampos();
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
-    public void validarCampo() {
+    public void validarCampos() {
 
         try {
             //Si alguno de los campos está vacio
@@ -158,8 +160,13 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
             String ubicacion = txtUbicacion.getText();
             int cupo = Integer.parseInt(txtCupoMax.getText());
             LocalDate fecha = LocalDate.parse(txtFecha.getText());
-            
-            registrarEvento(codigo, titulo, ubicacion, cupo, fecha);
+
+            if (eventoDAO.buscarPorParametros(codigo, ATRIBUTO, ENTIDAD, conn)) {
+                System.out.println("Ya existe este evento");
+                JOptionPane.showMessageDialog(null, "Ya exite este evento", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            } else {
+                crearrEvento(codigo, titulo, ubicacion, cupo, fecha);
+            }
 
         } catch (Exception e) {
             System.out.println("Algo salio mal en validar campos de Evento");
@@ -168,7 +175,7 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
 
     }
 
-    public void registrarEvento(String codigo, String titulo, String ubicacion, int cupo, LocalDate fecha) {
+    public void crearrEvento(String codigo, String titulo, String ubicacion, int cupo, LocalDate fecha) {
 
         TipoEventos tipo = TipoEventos.CHARLA;//Es por defecto
 
@@ -184,8 +191,8 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
                 tipo = TipoEventos.DEBATE;
                 break;
         }
-        
-        Evento nuevoEvento = new Evento(codigo,titulo, ubicacion,cupo,fecha,tipo);
+
+        Evento nuevoEvento = new Evento(codigo, titulo, ubicacion, cupo, fecha, tipo);
         eventoDAO.registrarEvento(nuevoEvento);
     }
 

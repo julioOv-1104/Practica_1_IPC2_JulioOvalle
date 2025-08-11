@@ -4,13 +4,10 @@ import PaqueteEntidades.*;
 import java.sql.*;
 import java.util.Scanner;
 
-public class ParticipanteDAO {
-
-    private Connection conn;
-
+public class ParticipanteDAO extends EntidadDAO {
 
     public ParticipanteDAO(Connection conn) {
-        this.conn = conn;
+        this.setConn(conn);
 
     }
 
@@ -20,7 +17,7 @@ public class ParticipanteDAO {
                 + "VALUES (?,?,?,?)";
 
         try {
-            PreparedStatement ps = conn.prepareStatement(REGISTRAR_PARTICIPANTE);
+            PreparedStatement ps = getConn().prepareStatement(REGISTRAR_PARTICIPANTE);
             ps.setString(1, participante.geteMail());
             ps.setString(2, participante.getInstitucion());
             ps.setString(3, participante.getTipo().name());
@@ -39,12 +36,12 @@ public class ParticipanteDAO {
 
     }
 
-    public boolean buscarParticipanteDuplicado(String correo) {
+    /*public boolean buscarParticipantePorCorreo(String correo) {
         //Busca si hay un participante que tenga el mismo correo electronico
         String sql = "SELECT email FROM participante WHERE email = ?";
 
         try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = getConn().prepareStatement(sql);
             ps.setString(1, correo);
             ResultSet rs = ps.executeQuery();
 
@@ -58,6 +55,6 @@ public class ParticipanteDAO {
         }
 
         return false;
-    }
+    }*/
 
 }

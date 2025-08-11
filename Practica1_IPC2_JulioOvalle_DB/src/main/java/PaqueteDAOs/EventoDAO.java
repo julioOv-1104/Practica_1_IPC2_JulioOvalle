@@ -3,21 +3,20 @@ package PaqueteDAOs;
 import PaqueteEntidades.Evento;
 import java.sql.*;
 
-public class EventoDAO {
+public class EventoDAO extends EntidadDAO {
 
-    private Connection conn;
 
     public EventoDAO(Connection conn) {
-        this.conn = conn;
+        this.setConn(conn);
     }
 
-    public void registrarEvento(Evento evento) {
+    public void registrarEvento(Evento evento) {//Registra el evento en la BD
 
         String INSERTAR_EVENTO = "INSERT INTO evento (codigo_evento, fecha, tipo_evento,titulo, ubicacion, cupo_maximo) "
                 + "VALUES(?,?,?,?,?,?)";
 
         try {
-            PreparedStatement ps = conn.prepareStatement(INSERTAR_EVENTO);
+            PreparedStatement ps = getConn().prepareStatement(INSERTAR_EVENTO);
             ps.setString(1, evento.getCodigoEvento());
             ps.setDate(2, java.sql.Date.valueOf(evento.getFecha()));
             ps.setString(3, evento.getTipo().name());
@@ -30,28 +29,9 @@ public class EventoDAO {
             System.out.println("Rows affected " + n);
             
         } catch (SQLException e) {
+            //e.printStackTrace();
             System.out.println("Error al registrar Evento");
         }
     }
     
-    public boolean buscarEventoDuplicado(String codigo) {
-        //Busca si hay un evento que tenga el mismo codigo
-        String sql = "SELECT codigo_evento FROM participante WHERE codigo_evento = ?";
-
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, codigo);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException e) {
-            System.out.println("Algo salio mal con la busqueda del evento");
-        }
-
-        return false;
-    }
 }

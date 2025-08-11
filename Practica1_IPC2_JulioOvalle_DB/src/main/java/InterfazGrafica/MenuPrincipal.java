@@ -10,7 +10,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public MenuPrincipal(Connection conn) {
         initComponents();
         this.conn = conn;
-        setResizable(false);
+        setResizable(true);
         setTitle("Menu Eventos Hyrule");
         setLocationRelativeTo(null);
 
@@ -28,7 +28,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        menuInscribir = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
@@ -50,7 +51,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         vistaEscritorioLayout.setHorizontalGroup(
             vistaEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vistaEscritorioLayout.createSequentialGroup()
-                .addContainerGap(397, Short.MAX_VALUE)
+                .addContainerGap(544, Short.MAX_VALUE)
                 .addComponent(btnSalir)
                 .addContainerGap())
         );
@@ -101,10 +102,29 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu4.setText("Inscribir a Evento");
-        jMenuBar1.add(jMenu4);
+        menuInscribir.setText("Inscribir a Evento");
+        menuInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuInscribirActionPerformed(evt);
+            }
+        });
+
+        jMenuItem4.setText("Inscribir");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        menuInscribir.add(jMenuItem4);
+
+        jMenuBar1.add(menuInscribir);
 
         jMenu5.setText("Pago");
+        jMenu5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu5ActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(jMenu5);
 
         jMenu6.setText("Asistencia");
@@ -133,14 +153,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+
+        limpiarPantalla();
+
+        IFRegistrarActividad regActi = new IFRegistrarActividad(conn);
+        vistaEscritorio.add(regActi);
+        regActi.show();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 
-        for (JInternalFrame frame : vistaEscritorio.getAllFrames()) {
-            frame.setVisible(false);//Cierra todas las ventanas que estubieran abiertas
-        }
+        limpiarPantalla();
 
         IFRegistrarParticipante partici = new IFRegistrarParticipante(conn);
         vistaEscritorio.add(partici);
@@ -155,9 +178,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 
-        for (JInternalFrame frame : vistaEscritorio.getAllFrames()) {
-            frame.setVisible(false);//Cierra todas las ventanas que estubieran abiertas
-        }
+        limpiarPantalla();
 
         IFRegistrarEvento event = new IFRegistrarEvento(conn);
         vistaEscritorio.add(event);
@@ -165,11 +186,35 @@ public class MenuPrincipal extends javax.swing.JFrame {
         event.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void menuInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuInscribirActionPerformed
+
+    }//GEN-LAST:event_menuInscribirActionPerformed
+
+    private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenu5ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+
+        limpiarPantalla();
+        IFInscripcion insc = new IFInscripcion(conn);
+        vistaEscritorio.add(insc);
+
+        insc.show();
+
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void limpiarPantalla() {
+
+        for (JInternalFrame frame : vistaEscritorio.getAllFrames()) {
+            frame.setVisible(false);//Cierra todas las ventanas que estubieran abiertas
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
@@ -178,7 +223,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JMenu menuInscribir;
     private javax.swing.JDesktopPane vistaEscritorio;
     // End of variables declaration//GEN-END:variables
 }

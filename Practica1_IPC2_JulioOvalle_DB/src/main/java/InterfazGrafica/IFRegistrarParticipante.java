@@ -8,8 +8,10 @@ import javax.swing.JOptionPane;
 
 public class IFRegistrarParticipante extends javax.swing.JInternalFrame {
 
-    Connection conn;
-    ParticipanteDAO participanteDAO;
+    private Connection conn;
+    private ParticipanteDAO participanteDAO;
+    private final String ATRIBUTO = "email";
+    private final String ENTIDAD = "participante";
 
     public IFRegistrarParticipante(Connection conn) {
         initComponents();
@@ -138,7 +140,7 @@ public class IFRegistrarParticipante extends javax.swing.JInternalFrame {
             String insti = txtInstitucion.getText();
 
             //Verifica que no exista el participante
-            if (participanteDAO.buscarParticipanteDuplicado(correo)) {
+            if (participanteDAO.buscarPorParametros(correo, ATRIBUTO, ENTIDAD, conn)) {
                 System.out.println("Ya existe este participante");
                 JOptionPane.showMessageDialog(null, "Ya exite este participante", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
 
