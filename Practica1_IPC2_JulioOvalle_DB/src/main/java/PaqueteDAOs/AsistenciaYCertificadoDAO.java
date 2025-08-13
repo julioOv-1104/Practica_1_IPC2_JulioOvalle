@@ -32,7 +32,7 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             System.out.println("Rows affected " + n);
             JOptionPane.showMessageDialog(null, "Asistencia registrada con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
             
-            buscarCodigoEvento(asistencia);
+            buscarCertificadoDuplicado(asistencia);
             
         } catch (SQLException e) {
             //e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
@@ -44,10 +44,13 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
     public void buscarCodigoEvento(AsistenciaYCertificado asistencia) {
 
 
-        String buscarCodigoEvento = "SELECT act.codigo_evento FROM asistencia a JOIN actividad act "
-                + "ON a.codigo_actividad = act.codigo_actividad WHERE a.actividad = ?";
+        /*String buscarCodigoEvento = "SELECT act.codigo_evento FROM asistencia a JOIN actividad act "
+                + "ON a.codigo_actividad = act.codigo_actividad WHERE a.codigo_actividad = ?";*/
+        
+        String buscarCodigo = "SELECT codigo_evento FROM actividad WHERE codigo_actividad = ?";
+        
         try {
-            PreparedStatement ps = getConn().prepareStatement(buscarCodigoEvento);
+            PreparedStatement ps = getConn().prepareStatement(buscarCodigo);
 
             ps.setString(1, asistencia.getCodigoActividad());
 
@@ -57,12 +60,12 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             if (rs.next()) {
                 codigoEncontrado = rs.getString("codigo_evento");
                 System.out.println("codigo_evento = " + codigoEncontrado);
-                //Verifica que no haya un certificado duplicado
-                buscarCertificadoDuplicado(asistencia);
+                //Verifica que exista su inscripcion y esté validada
+                comprobarInscripcion(asistencia);
             } 
 
         } catch (SQLException e) {
-            //e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
+            e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
             System.out.println("Error al buscar codigo del evento");
         }
     }
@@ -81,7 +84,7 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             if (rs.next()) {
                 //Si encuentra el certificado duplicado no hace nada
             } else {
-                System.out.println("No se encontró el certificado duplicado");
+                System.out.println("El certificado no está duplicado");
                 registrarCertificado(asistencia);
             }
 
@@ -90,6 +93,34 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             System.out.println("Error al buscar codigo del evento");
         }
 
+    }
+    
+    public void comprobarInscripcion(AsistenciaYCertificado asistencia){
+        
+         String sql = "SELECT 1 FROM inscripcion WHERE email_participante = ?"
+                + " AND codigo_evento = ? AND es_valida = true";
+
+        try {
+            PreparedStatement ps = getConn().prepareStatement(sql);
+            ps.setString(1, asistencia.getCorreoParticipante());
+            ps.setString(2, codigoEncontrado);
+
+            System.out.println(ps);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                //La inscripcion existe y es valida
+                registrarAsistencia(asistencia);//Crea el certificado
+                throw new SQLException();
+            } else {
+                //no existe la inscripcion o no es valida aún
+                JOptionPane.showMessageDialog(null, "Ya existe esta asistencia", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace();
+            System.out.println("Algo salio mal con la busqueda");
+        }
+    
     }
 
     private void registrarCertificado(AsistenciaYCertificado asistencia) {//Registra el actividad en la BD

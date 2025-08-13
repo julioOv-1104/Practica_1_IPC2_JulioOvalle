@@ -234,10 +234,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void menuRegistrarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRegistrarAsistenciaActionPerformed
         limpiarPantalla();
-        /*IFregistrarAsistencia asist = new IFRegistrarAsistencia(conn);
+        IFRegistrarAsistencias asist = new IFRegistrarAsistencias(conn);
         vistaEscritorio.add(asist);
-        
-        asist.show();*/
+
+        asist.show();
     }//GEN-LAST:event_menuRegistrarAsistenciaActionPerformed
 
     private void limpiarPantalla() {

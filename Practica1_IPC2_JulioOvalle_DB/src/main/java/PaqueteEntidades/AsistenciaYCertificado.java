@@ -5,6 +5,13 @@ public class AsistenciaYCertificado {
     
     private String correoParticipante, codigoActividad;
 
+    public AsistenciaYCertificado(String correoParticipante, String codigoActividad) {
+        this.correoParticipante = correoParticipante;
+        this.codigoActividad = codigoActividad;
+    }
+    
+    
+
     public String getCorreoParticipante() {
         return correoParticipante;
     }
