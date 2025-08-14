@@ -97,7 +97,7 @@ public class IFRegistrarAsistencias extends javax.swing.JInternalFrame {
                     && asistenciaDAO.buscarPorParametros(codigoActividad, "codigo_actividad", "actividad", conn)) {
 
                 System.out.println("Ambos existen: participante y actividad");
-                buscarAsistenciaDuplicada(correo, codigoActividad);
+                comprobarEspacios(codigoActividad, correo);
 
             } else {
                 JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -109,6 +109,58 @@ public class IFRegistrarAsistencias extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    private void comprobarEspacios(String codigoActividad, String correo) {
+
+        int cupoMaximo = 0;
+        int cupoUsado = 0;
+
+        String cupoOcupado = "SELECT COUNT(*) FROM asistencia WHERE codigo_actividad = ?";
+        String cupoDisponible = "SELECT cupo_maximo FROM actividad WHERE codigo_actividad = ?";
+
+        try {
+
+            PreparedStatement ps = conn.prepareStatement(cupoOcupado);
+            ps.setString(1, codigoActividad);
+
+            System.out.println(ps);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                //Obtiene cuantas personas ya están inscritas en el evento
+                cupoUsado = Integer.parseInt(rs.getString("COUNT(*)"));
+                System.out.println("CUPO USADO " + cupoUsado);
+
+            }
+
+            PreparedStatement ps2 = conn.prepareStatement(cupoDisponible);
+            ps2.setString(1, codigoActividad);
+
+            System.out.println(cupoDisponible);
+            ResultSet rs2 = ps2.executeQuery();
+
+            if (rs2.next()) {
+                //Obtiene cuantos espacios hay en total
+                cupoMaximo = Integer.parseInt(rs2.getString("cupo_maximo"));
+                System.out.println("CUPO MAXIMO " + cupoMaximo);
+
+            }
+
+            if (cupoUsado < cupoMaximo) {
+                //Si aun hay espacios
+                buscarAsistenciaDuplicada(correo, codigoActividad);
+            } else {
+                //Si no hay espacio no hace nada
+                JOptionPane.showMessageDialog(null, "Ya no hay cupos para esta actividad", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Algo salio mal con la busqueda de cupos");
+        }
+
+    }
+    
 
     private void buscarAsistenciaDuplicada(String correo, String codigo) {
 
