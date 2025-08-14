@@ -35,6 +35,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuAsisitencia = new javax.swing.JMenu();
         menuRegistrarAsistencia = new javax.swing.JMenuItem();
         menuCargarArchivo = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuReportes = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -151,6 +152,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuAsisitencia);
 
         menuCargarArchivo.setText("Cargar Archivo");
+
+        jMenuItem1.setText("Cargar Archivo");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        menuCargarArchivo.add(jMenuItem1);
+
         jMenuBar1.add(menuCargarArchivo);
 
         menuReportes.setText("Reportes");
@@ -240,6 +250,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         asist.show();
     }//GEN-LAST:event_menuRegistrarAsistenciaActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        limpiarPantalla();
+        IFCargaArchivo cargar = new IFCargaArchivo();
+        vistaEscritorio.add(cargar);
+        
+        cargar.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void limpiarPantalla() {
 
         for (JInternalFrame frame : vistaEscritorio.getAllFrames()) {
@@ -252,6 +270,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu MenuRegistrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JMenu menuAsisitencia;
     private javax.swing.JMenu menuCargarArchivo;
