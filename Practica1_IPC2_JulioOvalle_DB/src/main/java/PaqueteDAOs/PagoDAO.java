@@ -46,6 +46,7 @@ public class PagoDAO extends EntidadDAO {
             int m = ps2.executeUpdate();
             System.out.println("Rows affected " + m);
             System.out.println("SQL ejecutado: " + ps2);
+            System.out.println("Se validó la inscripción");
             
             //Confirma la transaccion
             getConn().commit();
