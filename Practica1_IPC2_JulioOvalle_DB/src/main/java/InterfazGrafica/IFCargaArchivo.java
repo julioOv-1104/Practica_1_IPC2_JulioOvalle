@@ -1,13 +1,16 @@
-
 package InterfazGrafica;
 
+import GestionArchivo.LecturaArchivo;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class IFCargaArchivo extends javax.swing.JInternalFrame {
 
+    private MenuPrincipal menu;
 
-    public IFCargaArchivo() {
+    public IFCargaArchivo(MenuPrincipal menu) {
+        this.menu = menu;
         initComponents();
     }
 
@@ -18,7 +21,8 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
         txtPath = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
-        lblResultado = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtVelocidad = new javax.swing.JTextField();
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -28,8 +32,13 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
         });
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
-        lblResultado.setText("RESULTADO");
+        jLabel1.setText("Velocidad de prpcesamiento (milisegundos)");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -42,7 +51,9 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnBuscar)
                             .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtVelocidad, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(17, 17, 17))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnAceptar)
@@ -55,9 +66,11 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
                 .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnBuscar)
-                .addGap(64, 64, 64)
-                .addComponent(lblResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addGap(12, 12, 12)
+                .addComponent(txtVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                 .addComponent(btnAceptar)
                 .addContainerGap())
         );
@@ -69,16 +82,44 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         JFileChooser jfc = new JFileChooser();
         jfc.showOpenDialog(null);
+
         File file = jfc.getSelectedFile();
         txtPath.setText(file.getAbsolutePath());
-        
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        empezarLectura();
+        this.dispose();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    public void empezarLectura() {
+
+        int n = 0;
+
+        try {
+
+            if (txtPath.getText().isEmpty() || txtVelocidad.getText().isEmpty()) {
+                System.out.println("No hay ningun archivo");
+                JOptionPane.showMessageDialog(null, "No hay ningun archivo", "ERROR", JOptionPane.ERROR_MESSAGE);
+
+            } else {
+                n = Integer.parseInt(txtVelocidad.getText());
+                LecturaArchivo leer = new LecturaArchivo(txtPath.getText(), n, menu);
+                Thread iniciar = new Thread(leer);
+                iniciar.start();
+            }
+
+        } catch (Exception e) {
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JLabel lblResultado;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField txtPath;
+    private javax.swing.JTextField txtVelocidad;
     // End of variables declaration//GEN-END:variables
 }
