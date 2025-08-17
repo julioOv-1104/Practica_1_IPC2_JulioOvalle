@@ -34,6 +34,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuInscribirParticipante = new javax.swing.JMenuItem();
         menuPago = new javax.swing.JMenu();
         menuPagoInscripcion = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         menuAsisitencia = new javax.swing.JMenu();
         menuRegistrarAsistencia = new javax.swing.JMenuItem();
         menuCargarArchivo = new javax.swing.JMenu();
@@ -154,6 +156,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(menuPago);
 
+        jMenu1.setText("Validar");
+
+        jMenuItem1.setText("Validar inscripcion");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
         menuAsisitencia.setText("Asistencia");
 
         menuRegistrarAsistencia.setText("Registrar Asistecia");
@@ -269,9 +283,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         limpiarPantalla();
         IFCargaArchivo cargar = new IFCargaArchivo(this);
         vistaEscritorio.add(cargar);
-        
+
         cargar.show();
     }//GEN-LAST:event_menuCargarActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        limpiarPantalla();
+        IFValidacion validar = new IFValidacion(conn);
+        vistaEscritorio.add(validar);
+
+        validar.show();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void limpiarPantalla() {
 
@@ -288,11 +310,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public void setTxtArea(JTextArea txtArea) {
         this.txtArea = txtArea;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MenuRegistrar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu menuAsisitencia;
