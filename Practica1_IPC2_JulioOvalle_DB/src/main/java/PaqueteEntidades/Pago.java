@@ -5,12 +5,13 @@ public class Pago {
     
     private String email_participante, codigo_evento;
     private MetodoDePago metodoDePago;
-    private final int monto = 50;
+    private double monto;
 
-    public Pago(String email_participante, String codigo_evento, MetodoDePago metodoDePago) {
+    public Pago(String email_participante, String codigo_evento, MetodoDePago metodoDePago, double monto) {
         this.email_participante = email_participante;
         this.codigo_evento = codigo_evento;
         this.metodoDePago = metodoDePago;
+        this.monto = monto;
     }
 
     public String getEmail_participante() {
@@ -37,8 +38,13 @@ public class Pago {
         this.metodoDePago = metodoDePago;
     }
 
-    public int getMonto() {
+    public double getMonto() {
         return monto;
     }
-  
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
+    
 }

@@ -13,8 +13,7 @@ public class EventoDAO extends EntidadDAO {
 
     public void registrarEvento(Evento evento) {//Registra el evento en la BD
 
-        String insertarEvento = "INSERT INTO evento (codigo_evento, fecha, tipo_evento,titulo, ubicacion, cupo_maximo) "
-                + "VALUES(?,?,?,?,?,?)";
+        String insertarEvento = "INSERT INTO evento (codigo_evento, fecha, tipo_evento,titulo, ubicacion, cupo_maximo,costo_inscripcion) VALUES(?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement ps = getConn().prepareStatement(insertarEvento);
@@ -24,6 +23,7 @@ public class EventoDAO extends EntidadDAO {
             ps.setString(4, evento.getTitulo());
             ps.setString(5, evento.getUbicacion());
             ps.setInt(6, evento.getCupoMaximo());
+            ps.setDouble(7, evento.getCostoEvento());
 
             int n = ps.executeUpdate();
             System.out.println("sql ejecutado: " + ps);
@@ -32,7 +32,7 @@ public class EventoDAO extends EntidadDAO {
             
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("Error al registrar Evento");
+            System.out.println("Error al registrar Evento " + e.getMessage());
         }
     }
     

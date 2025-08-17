@@ -45,6 +45,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
+INSERT INTO `actividad` VALUES ('ACT-0','kp','TALLER','encargado@algo.com','13:00:00','14:00:00','prueba 2',12),('ACT-01','EV-01','TALLER','encargado@algo.com','10:00:00','11:00:00','actividad de prueba',20),('ACT-02','EV-01','DEBATE','6515@algo.com','12:00:00','13:00:00','PRUEBA DE CUPO',1),('akaka','kp','TALLER','uuuuuu','10:00:00','11:00:00','pri',50);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,6 +72,7 @@ CREATE TABLE `asistencia` (
 
 LOCK TABLES `asistencia` WRITE;
 /*!40000 ALTER TABLE `asistencia` DISABLE KEYS */;
+INSERT INTO `asistencia` VALUES ('uuuuuu','akaka'),('encargado@algo.com','ACT-01'),('encargado@algo.com','akaka'),('6515@algo.com','ACT-02');
 /*!40000 ALTER TABLE `asistencia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,6 +99,7 @@ CREATE TABLE `certificado` (
 
 LOCK TABLES `certificado` WRITE;
 /*!40000 ALTER TABLE `certificado` DISABLE KEYS */;
+INSERT INTO `certificado` VALUES ('encargado@algo.com','EV-01'),('encargado@algo.com','kp'),('6515@algo.com','EV-01');
 /*!40000 ALTER TABLE `certificado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,6 +117,7 @@ CREATE TABLE `evento` (
   `titulo` varchar(200) DEFAULT NULL,
   `ubicacion` varchar(100) DEFAULT NULL,
   `cupo_maximo` int DEFAULT NULL,
+  `costo_inscripcion` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`codigo_evento`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -124,6 +128,7 @@ CREATE TABLE `evento` (
 
 LOCK TABLES `evento` WRITE;
 /*!40000 ALTER TABLE `evento` DISABLE KEYS */;
+INSERT INTO `evento` VALUES ('apapapa','2000-01-02','CONGRESO','primera prueba','donde sea',20,0),('EV-01','2025-08-13','CONGRESO','prueba','donde sea',25,0),('EV-02','2025-08-13','TALLER','PRUEBA DE CUPOS','AQUI',1,0),('EVE','2025-08-16','CONGRESO','Evento costo','sdsfsf',50,120),('EVENTO 2','2025-08-16','CONGRESO','Evento costo 2','sdsfsf',50,50.5),('kp','2000-04-04','CHARLA','sfsfsfsf','wffe',25,0);
 /*!40000 ALTER TABLE `evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,6 +157,7 @@ CREATE TABLE `inscripcion` (
 
 LOCK TABLES `inscripcion` WRITE;
 /*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
+INSERT INTO `inscripcion` VALUES ('ASISTENTE','julio@algo.com','apapapa',1),('TALLERISTA','uuuuuu','kp',1),('ASISTENTE','pppp@algo.com','kp',1),('CONFERENCISTA','encargado@algo.com','EV-01',1),('TALLERISTA','encargado@algo.com','kp',1),('TALLERISTA','6515@algo.com','kp',1),('TALLERISTA','6515@algo.com','EV-02',0),('ASISTENTE','6515@algo.com','EV-01',1),('CONFERENCISTA','julio@algo.com','EVENTO 2',1),('CONFERENCISTA','encargado@algo.com','EVENTO 2',1),('TALLERISTA','uuuuuu','EVENTO 2',1);
 /*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -166,7 +172,7 @@ CREATE TABLE `pago` (
   `email_participante` varchar(100) DEFAULT NULL,
   `codigo_evento` varchar(10) DEFAULT NULL,
   `metodo_pago` enum('EFECTIVO','TRANSFERENCIA','TARJETA') DEFAULT NULL,
-  `monto` int DEFAULT NULL,
+  `monto` double DEFAULT NULL,
   KEY `email_participante` (`email_participante`),
   KEY `codigo_evento` (`codigo_evento`),
   CONSTRAINT `pago_ibfk_1` FOREIGN KEY (`email_participante`) REFERENCES `participante` (`email`),
@@ -180,6 +186,7 @@ CREATE TABLE `pago` (
 
 LOCK TABLES `pago` WRITE;
 /*!40000 ALTER TABLE `pago` DISABLE KEYS */;
+INSERT INTO `pago` VALUES ('julio@algo.com','apapapa','TRANSFERENCIA',50),('uuuuuu','kp','EFECTIVO',50),('pppp@algo.com','kp','EFECTIVO',50),('encargado@algo.com','EV-01','EFECTIVO',50),('encargado@algo.com','kp','EFECTIVO',50),('6515@algo.com','kp','EFECTIVO',50),('6515@algo.com','EV-01','EFECTIVO',50),('julio@algo.com','EVENTO 2','EFECTIVO',50),('encargado@algo.com','EVENTO 2','EFECTIVO',50),('uuuuuu','EVENTO 2','TRANSFERENCIA',50.8);
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,6 +212,7 @@ CREATE TABLE `participante` (
 
 LOCK TABLES `participante` WRITE;
 /*!40000 ALTER TABLE `participante` DISABLE KEYS */;
+INSERT INTO `participante` VALUES (' uuuuuu ','eeeee','ESTUDIANTE','bdfbdfb'),('6515@algo.com','CUNOC','PROFESIONAL','Allan'),('ajajsjsjsjsj@algo.com','CUNOC','PROFESIONAL','julio'),('encargado@algo.com','CUNOC','PROFESIONAL','encargado'),('GGGGGGG@algo.com','CUNOC','PROFESIONAL','Allan'),('hyhhyhhy@algo.com','sdccscsc','INVITADO','refeferf'),('julio@algo.com','CUNOC','ESTUDIANTE','julio'),('pppp@algo.com','cddddd','PROFESIONAL','dffgb'),('uuuuuu','eeeeeeeee','INVITADO','hngngng');
 /*!40000 ALTER TABLE `participante` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -217,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-07 11:47:07
+-- Dump completed on 2025-08-16 21:36:10
