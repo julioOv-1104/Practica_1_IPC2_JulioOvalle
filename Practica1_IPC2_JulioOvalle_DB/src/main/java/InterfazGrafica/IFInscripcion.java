@@ -12,22 +12,15 @@ public class IFInscripcion extends javax.swing.JInternalFrame {
 
     private Connection conn;
     private InscripcionDAO inscripcionDAO;
-    private ParticipanteDAO participanteDAO;
-    private EventoDAO eventoDAO;
 
-    private final String ATRIBUTO_PARTICIPANTE = "email_participante";
-    private final String ENTIDAD_PARTICIPANTE = "participante";
-    private final String ATRIBUTO_EVENTO = "codigo_evento";
-    private final String ENTIDAD_EVENTO = "evento";
-    private final String ENTIDAD = "inscripcion";
+
 
     public IFInscripcion(Connection conn) {
         initComponents();
         setTitle("Inscribir Participante");
         this.conn = conn;
         this.inscripcionDAO = new InscripcionDAO(conn);
-        this.participanteDAO = new ParticipanteDAO(conn);
-        this.eventoDAO = new EventoDAO(conn);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -109,22 +102,13 @@ public class IFInscripcion extends javax.swing.JInternalFrame {
         try {
 
             if (txtCodigo.getText().isEmpty() || txtCorreo.getText().isEmpty()) {
-                throw new Exception();
+                throw new Exception();//Revisa que no estén vacios
             }
 
             String correo = txtCorreo.getText();
             String codigo = txtCodigo.getText();
 
-            //Verifica que el participante y el evento existan
-            if (participanteDAO.buscarPorParametros(correo, "email", ENTIDAD_PARTICIPANTE, conn)
-                    && eventoDAO.buscarPorParametros(codigo, ATRIBUTO_EVENTO, ENTIDAD_EVENTO, conn)) {
-                //ambos existen
-                System.out.println("Ambos existen, correo y evento");
-                comprobarCuposRestantes(codigo, correo);
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+            prepararDatos(correo, codigo);
 
         } catch (Exception e) {
             //e.printStackTrace();
@@ -133,85 +117,8 @@ public class IFInscripcion extends javax.swing.JInternalFrame {
         }
     }
 
-    private void comprobarCuposRestantes(String codigo, String correo) {
 
-        int cupoMaximo = 0;
-        int cupoUsado = 0;
-
-        String cupoOcupado = "SELECT COUNT(*) FROM inscripcion WHERE codigo_evento = ?";
-        String cupoDisponible = "SELECT cupo_maximo FROM evento WHERE codigo_evento = ?";
-
-        try {
-
-            PreparedStatement ps = conn.prepareStatement(cupoOcupado);
-            ps.setString(1, codigo);
-
-            System.out.println(ps);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                //Obtiene cuantas personas ya están inscritas en el evento
-                cupoUsado = Integer.parseInt(rs.getString("COUNT(*)"));
-                System.out.println("CUPO USADO " + cupoUsado);
-
-            }
-
-            PreparedStatement ps2 = conn.prepareStatement(cupoDisponible);
-            ps2.setString(1, codigo);
-
-            System.out.println(cupoDisponible);
-            ResultSet rs2 = ps2.executeQuery();
-
-            if (rs2.next()) {
-                //Obtiene cuantos espacios hay en total
-                cupoMaximo = Integer.parseInt(rs2.getString("cupo_maximo"));
-                System.out.println("CUPO MAXIMO " + cupoMaximo);
-
-            }
-
-            if (cupoUsado < cupoMaximo) {
-                //Si aun hay espacios
-                buscarInscripcionDuplicada(correo, codigo);
-            } else {
-                //Si no hay espacio no hace nada
-                JOptionPane.showMessageDialog(null, "Ya no hay cupos para este evento", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Algo salio mal con la busqueda de cupos");
-        }
-
-    }
-
-    private void buscarInscripcionDuplicada(String correo, String codigo) {
-
-        String sql = "SELECT 1 FROM " + ENTIDAD + " WHERE " + ATRIBUTO_EVENTO + " = ?"
-                + " AND " + ATRIBUTO_PARTICIPANTE + " = ?";
-
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, codigo);
-            ps.setString(2, correo);
-            System.out.println(ps);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                //la inscripcion está duplicada
-                JOptionPane.showMessageDialog(null, "Ya existe esta inscrpcion", "ERROR", JOptionPane.ERROR_MESSAGE);
-                throw new SQLException();
-            } else {
-                //no está duplicada
-                inscribir(correo, codigo);
-            }
-        } catch (SQLException e) {
-            //e.printStackTrace();
-            System.out.println("Algo salio mal con la busqueda");
-        }
-
-    }
-
-    public void inscribir(String correo, String codigo) {
+    public void prepararDatos(String correo, String codigo) {
 
         TipoInscripciones tipo = TipoInscripciones.ASISTENTE;
 
@@ -227,8 +134,9 @@ public class IFInscripcion extends javax.swing.JInternalFrame {
                 break;
         }
 
-        Inscripcion nuevaInscripcion = new Inscripcion(correo, codigo, tipo);
-        inscripcionDAO.inscribirParticipante(nuevaInscripcion);
+        Inscripcion nuevaInscripcion = new Inscripcion(correo, codigo, tipo);//Crea la inscripcion
+        inscripcionDAO.comprobarExistencia(correo, codigo, nuevaInscripcion);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -2,13 +2,24 @@ package PaqueteDAOs;
 
 import PaqueteEntidades.*;
 import java.sql.*;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class ParticipanteDAO extends EntidadDAO {
 
     public ParticipanteDAO(Connection conn) {
         this.setConn(conn);
+
+    }
+
+    public void comprobarExistencia(String nombre,String correo,String insti, Participante nuevoParticipante) {
+        //Verifica que no exista el participante
+        if (buscarPorParametros(correo, "email", "participante", getConn())) {
+            System.out.println("Ya existe este participante");
+            JOptionPane.showMessageDialog(null, "Ya exite este participante", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            registrarParticipante(nuevoParticipante);//Registra el nuevo participante en la BD
+        }
 
     }
 
@@ -58,5 +69,4 @@ public class ParticipanteDAO extends EntidadDAO {
 
         return false;
     }*/
-
 }

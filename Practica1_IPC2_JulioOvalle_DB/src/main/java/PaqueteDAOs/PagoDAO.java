@@ -14,7 +14,49 @@ public class PagoDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
-    public void verificaPagoSuficiente(Pago pago, double monto) {
+    public void comprovarExistencia(String correo, String codigo, double monto, Pago nuevoPago) {
+
+        //Verifica que el participante y el evento existan
+        if (buscarPorParametros(correo, "email", "participante", getConn())
+                && buscarPorParametros(codigo, "codigo_evento", "evento", getConn())) {
+            //ambos existen
+            System.out.println("Ambos existen, correo y evento");
+            buscarInscripcion(correo, codigo, monto, nuevoPago);//Busca inscripcion existente
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private void buscarInscripcion(String correo, String codigo, double monto, Pago nuevoPago) {
+
+        String sql = "SELECT 1 FROM inscripcion WHERE " + "codigo_evento" + " = ?"
+                + " AND email_participante = ?";
+
+        try {
+            PreparedStatement ps = getConn().prepareStatement(sql);
+            ps.setString(1, codigo);
+            ps.setString(2, correo);
+            System.out.println(ps);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                //la inscripcion existe
+                verificaPagoSuficiente(nuevoPago, monto);
+            } else {
+                //no está inscrito
+                JOptionPane.showMessageDialog(null, "No existe la inscripcion", "ERROR", JOptionPane.ERROR_MESSAGE);
+                throw new SQLException();
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace();
+            System.out.println("Algo salio mal con la busqueda");
+        }
+
+    }
+
+    public void verificaPagoSuficiente(Pago pago, double monto) {//antes de terminar verifica si el monto es suficiente
         String pregunta = "SELECT costo_inscripcion FROM evento WHERE codigo_evento = ?";
 
         try {
@@ -33,6 +75,7 @@ public class PagoDAO extends EntidadDAO {
                 }
             }
         } catch (Exception e) {
+            System.out.println("Erro en revisar el monto");
         }
 
     }

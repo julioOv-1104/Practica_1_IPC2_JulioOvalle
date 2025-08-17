@@ -11,8 +11,7 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
 
     private Connection conn;
     private EventoDAO eventoDAO;
-    private final String ATRIBUTO = "codigo_evento";
-    private final String ENTIDAD = "evento";
+
 
     public IFRegistrarEvento(Connection conn) {
         initComponents();
@@ -178,21 +177,17 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
             LocalDate fecha = LocalDate.parse(txtFecha.getText());
             double costo = Double.parseDouble(txtCosto.getText());
 
-            if (eventoDAO.buscarPorParametros(codigo, ATRIBUTO, ENTIDAD, conn)) {
-                System.out.println("Ya existe este evento");
-                JOptionPane.showMessageDialog(null, "Ya exite este evento", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-            } else {
-                crearrEvento(codigo, titulo, ubicacion, cupo, fecha, costo);
-            }
+            prepararDatos(codigo, titulo, ubicacion, cupo, fecha, costo);
 
         } catch (Exception e) {
-            System.out.println("Algo salio mal en validar campos de Evento "+ e.getMessage());
+            System.out.println("Algo salio mal en validar campos de Evento " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Campo o campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
     }
 
-    public void crearrEvento(String codigo, String titulo, String ubicacion, int cupo, LocalDate fecha, double costo) {
+    public void prepararDatos(String codigo, String titulo, String ubicacion, int cupo,
+            LocalDate fecha, double costo) {
 
         TipoEventos tipo = TipoEventos.CHARLA;//Es por defecto
 
@@ -210,7 +205,8 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
         }
 
         Evento nuevoEvento = new Evento(codigo, titulo, ubicacion, cupo, fecha, tipo, costo);
-        eventoDAO.registrarEvento(nuevoEvento);
+        eventoDAO.comprobarExisencia(codigo, titulo, ubicacion, cupo, fecha, costo, nuevoEvento);
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

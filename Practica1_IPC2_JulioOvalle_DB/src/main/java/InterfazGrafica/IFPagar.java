@@ -1,34 +1,23 @@
 package InterfazGrafica;
 
-import PaqueteDAOs.EventoDAO;
 import PaqueteDAOs.PagoDAO;
-import PaqueteDAOs.ParticipanteDAO;
 import PaqueteEntidades.MetodoDePago;
 import PaqueteEntidades.Pago;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class IFPagar extends javax.swing.JInternalFrame {
     
     private Connection conn;
     private PagoDAO pagoDAO;
-    private ParticipanteDAO participanteDAO;
-    private EventoDAO eventoDAO;
-    
-    private final String ENTIDAD_PARTICIPANTE = "participante";
-    private final String ATRIBUTO_EVENTO = "codigo_evento";
-    private final String ENTIDAD_EVENTO = "evento";
+
     
     public IFPagar(Connection conn) {
         initComponents();
         setTitle("Pagar");
         this.conn = conn;
         this.pagoDAO = new PagoDAO(conn);
-        this.participanteDAO = new ParticipanteDAO(conn);
-        this.eventoDAO = new EventoDAO(conn);
+
     }
     
     @SuppressWarnings("unchecked")
@@ -129,17 +118,10 @@ public class IFPagar extends javax.swing.JInternalFrame {
             String codigo = txtCodigo.getText();
             String correo = txtCorreo.getText();
             double monto = Double.parseDouble(txtMonto.getText());
-
-            //Verifica que el participante y el evento existan
-            if (participanteDAO.buscarPorParametros(correo, "email", ENTIDAD_PARTICIPANTE, conn)
-                    && eventoDAO.buscarPorParametros(codigo, ATRIBUTO_EVENTO, ENTIDAD_EVENTO, conn)) {
-                //ambos existen
-                System.out.println("Ambos existen, correo y evento");
-                buscarInscripcion(correo, codigo, monto);//Busca inscripcion existente
-                
-            } else {
-                JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);
-            }
+            
+            
+            prepararValores(correo, codigo, monto);
+            
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -149,9 +131,9 @@ public class IFPagar extends javax.swing.JInternalFrame {
         
     }
     
-    public void pagarYValidar(String correo, String codigo, double monto) {
+    public void prepararValores(String correo, String codigo, double monto) {
         
-        MetodoDePago metodo = MetodoDePago.EFECTIVO;
+        MetodoDePago metodo = MetodoDePago.EFECTIVO;//Reconoce cual fue la eleccion del usuario
         
         switch (jComboBoxMetodo.getSelectedIndex()) {
             case 1:
@@ -162,37 +144,11 @@ public class IFPagar extends javax.swing.JInternalFrame {
                 break;
         }
         
-        Pago nuevopago = new Pago(correo, codigo, metodo, monto);
-        pagoDAO.verificaPagoSuficiente(nuevopago,monto);//antes de terminar verifica si el monto es suficiente
+        Pago nuevoPago = new Pago(correo, codigo, metodo, monto);
+        pagoDAO.comprovarExistencia(correo, codigo, monto, nuevoPago);
         
     }
-    
-    private void buscarInscripcion(String correo, String codigo, double monto) {
-        
-        String sql = "SELECT 1 FROM inscripcion WHERE " + ATRIBUTO_EVENTO + " = ?"
-                + " AND email_participante = ?";
-        
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, codigo);
-            ps.setString(2, correo);
-            System.out.println(ps);
-            ResultSet rs = ps.executeQuery();
-            
-            if (rs.next()) {
-                //la inscripcion existe
-                pagarYValidar(correo, codigo,monto);//Ya que existe paga 
-            } else {
-                //no está inscrito
-                JOptionPane.showMessageDialog(null, "No existe la inscripcion", "ERROR", JOptionPane.ERROR_MESSAGE);
-                throw new SQLException();
-            }
-        } catch (SQLException e) {
-            //e.printStackTrace();
-            System.out.println("Algo salio mal con la busqueda");
-        }
-        
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPagar;

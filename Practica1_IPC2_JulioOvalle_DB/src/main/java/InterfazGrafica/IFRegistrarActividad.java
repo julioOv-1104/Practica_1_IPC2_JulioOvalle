@@ -13,22 +13,14 @@ public class IFRegistrarActividad extends javax.swing.JInternalFrame {
 
     private Connection conn;
     private ActividadDAO actividadDAO;
-    private ParticipanteDAO participanteDAO;
-    private EventoDAO eventoDAO;
-    private final String ATRIBUTO_PARTICIPANTE = "email";
-    private final String ENTIDAD_PARTICIPANTE = "participante";
-    private final String ATRIBUTO_EVENTO = "codigo_evento";
-    private final String ENTIDAD_EVENTO = "evento";
-    private final String ATRIBUTO = "codigo_actividad";
-    private final String ENTIDAD = "actividad";
+
 
     public IFRegistrarActividad(Connection conn) {
         initComponents();
         setTitle("Registrar Actividad");
         this.conn = conn;
         this.actividadDAO = new ActividadDAO(conn);
-        this.participanteDAO = new ParticipanteDAO(conn);
-        this.eventoDAO = new EventoDAO(conn);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -196,20 +188,7 @@ public class IFRegistrarActividad extends javax.swing.JInternalFrame {
             LocalTime horaInicio = LocalTime.parse(txthoraIni.getText());
             LocalTime horaFin = LocalTime.parse(txthoraFin.getText());
 
-            //Si no hay una actividad con el mismo codigo,
-            //Si el correo del encargado existe
-            //Y si el evento existe se podrá registrar la actividad
-            if (!actividadDAO.buscarPorParametros(codigoActividad, ATRIBUTO, ENTIDAD, conn) && participanteDAO.buscarPorParametros(correo, ATRIBUTO_PARTICIPANTE, ENTIDAD_PARTICIPANTE, conn)
-                    && eventoDAO.buscarPorParametros(codigoEvento, ATRIBUTO_EVENTO, ENTIDAD_EVENTO, conn)) {
-
-                if (actividadDAO.comprobarEncargado(correo)) {//Si cumple los parametros, crea la actividad
-                    crearActividad(codigoActividad, codigoEvento, correo, horaInicio, horaFin, titulo, cupoMaximo);
-                }
-
-            } else {
-                System.out.println("Los datos no coinsiden");
-                JOptionPane.showMessageDialog(null, "Datos incoherentes, revise sus datos", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-            }
+            prepararDatos(codigoActividad, codigoEvento, correo, horaInicio, horaFin, titulo, cupoMaximo);
 
         } catch (Exception e) {
             System.out.println("Error al registrar Actividad");
@@ -218,7 +197,7 @@ public class IFRegistrarActividad extends javax.swing.JInternalFrame {
 
     }
 
-    public void crearActividad(String codA, String codE, String correo, LocalTime horaIn,
+    public void prepararDatos(String codA, String codE, String correo, LocalTime horaIn,
             LocalTime horaFin, String titulo, int cupo) {
 
         TipoActividades tipoA = TipoActividades.CHARLA;//Por defecto
@@ -236,7 +215,7 @@ public class IFRegistrarActividad extends javax.swing.JInternalFrame {
         }
 
         Actividad nuevaActividad = new Actividad(codA, codE, correo, titulo, tipoA, cupo, horaIn, horaFin);
-        actividadDAO.registrarActividad(nuevaActividad);
+        actividadDAO.comprobarExistencia(codA, codE, correo, horaIn, horaFin, titulo, cupo, nuevaActividad);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

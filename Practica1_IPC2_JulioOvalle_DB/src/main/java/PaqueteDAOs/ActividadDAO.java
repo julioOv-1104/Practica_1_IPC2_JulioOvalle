@@ -3,12 +3,32 @@ package PaqueteDAOs;
 import PaqueteEntidades.*;
 import com.mysql.cj.protocol.Resultset;
 import java.sql.*;
+import java.time.LocalTime;
 import javax.swing.JOptionPane;
 
 public class ActividadDAO extends EntidadDAO {
 
     public ActividadDAO(Connection conn) {
         this.setConn(conn);
+    }
+
+    public void comprobarExistencia(String codA, String codE, String correo, LocalTime horaIn,
+            LocalTime horaFin, String titulo, int cupo, Actividad actividad) {
+
+        //Si no hay una actividad con el mismo codigo,
+        //Si el correo del encargado existe
+        //Y si el evento existe se podrá registrar la actividad
+        if (!buscarPorParametros(codA, "codigo_actividad", "actividad", getConn()) && buscarPorParametros(correo, "email", "participante", getConn())
+                && buscarPorParametros(codE, "codigo_evento", "evento", getConn())) {
+
+            if (comprobarEncargado(correo)) {//Si cumple los parametros, crea la actividad
+                registrarActividad(actividad);
+            }
+
+        } else {
+            System.out.println("Los datos no coinsiden");
+            JOptionPane.showMessageDialog(null, "Datos incoherentes, revise sus datos", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     //este metodo comprueba que el correo sea de alguien con una inscripcion valida y que no sea un asistente

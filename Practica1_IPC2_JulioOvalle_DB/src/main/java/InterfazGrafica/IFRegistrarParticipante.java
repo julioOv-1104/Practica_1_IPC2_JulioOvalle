@@ -10,8 +10,6 @@ public class IFRegistrarParticipante extends javax.swing.JInternalFrame {
 
     private Connection conn;
     private ParticipanteDAO participanteDAO;
-    private final String ATRIBUTO = "email";
-    private final String ENTIDAD = "participante";
 
     public IFRegistrarParticipante(Connection conn) {
         initComponents();
@@ -139,16 +137,7 @@ public class IFRegistrarParticipante extends javax.swing.JInternalFrame {
             String correo = txtCorreo.getText();
             String insti = txtInstitucion.getText();
 
-            //Verifica que no exista el participante
-            if (participanteDAO.buscarPorParametros(correo, ATRIBUTO, ENTIDAD, conn)) {
-                System.out.println("Ya existe este participante");
-                JOptionPane.showMessageDialog(null, "Ya exite este participante", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-
-            } else {
-                crearParticipante(nombre, insti, correo);
-            }
-
-            System.out.println("Todo bien");
+            prepararDatos(nombre, insti, correo);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Campo o campos no validos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -158,7 +147,7 @@ public class IFRegistrarParticipante extends javax.swing.JInternalFrame {
     }
 
     //Si esntra a este metodo es porque llenó todos los campos correctamente
-    public void crearParticipante(String nombre, String institucion, String eMail) {
+    public void prepararDatos(String nombre, String institucion, String eMail) {
 
         TipoParticipantes tipo = TipoParticipantes.ESTUDIANTE;
 
@@ -174,7 +163,7 @@ public class IFRegistrarParticipante extends javax.swing.JInternalFrame {
 
         Participante nuevo = new Participante(nombre, institucion, eMail, tipo);//Crea un nuevo participante
 
-        participanteDAO.registrarParticipante(nuevo);//Registra el nuevo participante en la BD
+        participanteDAO.comprobarExistencia(nombre, eMail, institucion, nuevo);
     }
 
 

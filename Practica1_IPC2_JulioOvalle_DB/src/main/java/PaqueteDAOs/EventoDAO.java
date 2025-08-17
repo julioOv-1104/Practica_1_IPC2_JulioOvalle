@@ -2,13 +2,24 @@ package PaqueteDAOs;
 
 import PaqueteEntidades.Evento;
 import java.sql.*;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 
 public class EventoDAO extends EntidadDAO {
 
-
     public EventoDAO(Connection conn) {
         this.setConn(conn);
+    }
+
+    public void comprobarExisencia(String codigo, String titulo, String ubicacion, int cupo, LocalDate fecha, 
+            double costo, Evento evento) {
+        //Verifica si existe
+        if (buscarPorParametros(codigo, "codigo_evento", "evento", getConn())) {
+            System.out.println("Ya existe este evento");
+            JOptionPane.showMessageDialog(null, "Ya exite este evento", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        } else {
+            registrarEvento(evento);
+        }
     }
 
     public void registrarEvento(Evento evento) {//Registra el evento en la BD
@@ -29,11 +40,11 @@ public class EventoDAO extends EntidadDAO {
             System.out.println("sql ejecutado: " + ps);
             System.out.println("Rows affected " + n);
             JOptionPane.showMessageDialog(null, "Evento registrado con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
-            
+
         } catch (SQLException e) {
             //e.printStackTrace();
             System.out.println("Error al registrar Evento " + e.getMessage());
         }
     }
-    
+
 }

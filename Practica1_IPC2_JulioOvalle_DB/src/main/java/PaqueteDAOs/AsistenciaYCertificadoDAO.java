@@ -16,6 +16,99 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
+    public void comprobarExistencia(String correo, String codigo, AsistenciaYCertificado asistencia) {
+
+        //revisa que existam los datos
+        if (buscarPorParametros(correo, "email", "participante", getConn())
+                && buscarPorParametros(codigo, "codigo_actividad", "actividad", getConn())) {
+
+            System.out.println("Ambos existen: participante y actividad");
+            comprobarEspacios(codigo, correo, asistencia);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+    
+    public void comprobarEspacios(String codigoActividad, String correo, AsistenciaYCertificado asistencia) {
+
+        int cupoMaximo = 0;
+        int cupoUsado = 0;
+
+        String cupoOcupado = "SELECT COUNT(*) FROM asistencia WHERE codigo_actividad = ?";
+        String cupoDisponible = "SELECT cupo_maximo FROM actividad WHERE codigo_actividad = ?";
+
+        try {
+
+            PreparedStatement ps = getConn().prepareStatement(cupoOcupado);
+            ps.setString(1, codigoActividad);
+
+            System.out.println(ps);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                //Obtiene cuantas personas ya están inscritas en el evento
+                cupoUsado = Integer.parseInt(rs.getString("COUNT(*)"));
+                System.out.println("CUPO USADO " + cupoUsado);
+
+            }
+
+            PreparedStatement ps2 = getConn().prepareStatement(cupoDisponible);
+            ps2.setString(1, codigoActividad);
+
+            System.out.println(cupoDisponible);
+            ResultSet rs2 = ps2.executeQuery();
+
+            if (rs2.next()) {
+                //Obtiene cuantos espacios hay en total
+                cupoMaximo = Integer.parseInt(rs2.getString("cupo_maximo"));
+                System.out.println("CUPO MAXIMO " + cupoMaximo);
+
+            }
+
+            if (cupoUsado < cupoMaximo) {
+                //Si aun hay espacios
+                buscarAsistenciaDuplicada(correo, codigoActividad, asistencia);
+            } else {
+                //Si no hay espacio no hace nada
+                JOptionPane.showMessageDialog(null, "Ya no hay cupos para esta actividad", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Algo salio mal con la busqueda de cupos");
+        }
+
+    }
+    
+    private void buscarAsistenciaDuplicada(String correo, String codigo,AsistenciaYCertificado asistencia) {
+
+        String sql = "SELECT 1 FROM asistencia WHERE email_participante = ?"
+                + " AND codigo_actividad = ?";
+
+        try {
+            PreparedStatement ps = getConn().prepareStatement(sql);
+            ps.setString(1, correo);
+            ps.setString(2, codigo);
+
+            System.out.println(ps);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                //la asistencia está duplicada
+                JOptionPane.showMessageDialog(null, "Ya existe esta asistencia", "ERROR", JOptionPane.ERROR_MESSAGE);
+                throw new SQLException();
+            } else {
+                //no está duplicada
+                buscarCodigoEvento(asistencia);
+            }
+        } catch (SQLException e) {
+            //e.printStackTrace();
+            System.out.println("Algo salio mal con la busqueda");
+        }
+    }
+
     public void registrarAsistencia(AsistenciaYCertificado asistencia) {//Registra el actividad en la BD
 
         String insertarActividad = "INSERT INTO asistencia (email_participante, codigo_actividad) "
@@ -31,9 +124,9 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             System.out.println("sql ejecutado: " + ps);
             System.out.println("Rows affected " + n);
             JOptionPane.showMessageDialog(null, "Asistencia registrada con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
-            
+
             buscarCertificadoDuplicado(asistencia);
-            
+
         } catch (SQLException e) {
             //e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
             System.out.println("Error al ingresar la asistencia");
@@ -46,9 +139,8 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
 
         /*String buscarCodigoEvento = "SELECT act.codigo_evento FROM asistencia a JOIN actividad act "
                 + "ON a.codigo_actividad = act.codigo_actividad WHERE a.codigo_actividad = ?";*/
-        
         String buscarCodigo = "SELECT codigo_evento FROM actividad WHERE codigo_actividad = ?";
-        
+
         try {
             PreparedStatement ps = getConn().prepareStatement(buscarCodigo);
 
@@ -62,7 +154,7 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
                 System.out.println("codigo_evento = " + codigoEncontrado);
                 //Verifica que exista su inscripcion y esté validada
                 comprobarInscripcion(asistencia);
-            } 
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
@@ -94,10 +186,10 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
         }
 
     }
-    
-    public void comprobarInscripcion(AsistenciaYCertificado asistencia){
-        
-         String sql = "SELECT 1 FROM inscripcion WHERE email_participante = ?"
+
+    public void comprobarInscripcion(AsistenciaYCertificado asistencia) {
+
+        String sql = "SELECT 1 FROM inscripcion WHERE email_participante = ?"
                 + " AND codigo_evento = ? AND es_valida = true";
 
         try {
@@ -120,7 +212,7 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             //e.printStackTrace();
             System.out.println("Algo salio mal con la busqueda");
         }
-    
+
     }
 
     private void registrarCertificado(AsistenciaYCertificado asistencia) {//Registra el actividad en la BD
