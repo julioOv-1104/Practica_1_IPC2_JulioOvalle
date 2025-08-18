@@ -38,7 +38,7 @@ public class IFPagar extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Codigo del evento");
 
-        jComboBoxMetodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EFECTIVO", "TRANSEFERENCIA", "TARGETA" }));
+        jComboBoxMetodo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "EFECTIVO", "TRANSEFERENCIA", "TARJETA" }));
 
         jLabel3.setText("Metodo de pago");
 
@@ -140,12 +140,12 @@ public class IFPagar extends javax.swing.JInternalFrame {
                 metodo = MetodoDePago.TRANSFERENCIA;
                 break;
             case 2:
-                metodo = MetodoDePago.TARGETA;
+                metodo = MetodoDePago.TARJETA;
                 break;
         }
         
         Pago nuevoPago = new Pago(correo, codigo, metodo, monto);
-        pagoDAO.comprovarExistencia(correo, codigo, monto, nuevoPago);
+        pagoDAO.comprobarExistencia(nuevoPago);
         
     }
 

@@ -14,14 +14,15 @@ public class PagoDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
-    public void comprovarExistencia(String correo, String codigo, double monto, Pago nuevoPago) {
+    public void comprobarExistencia(Pago nuevoPago) {
 
         //Verifica que el participante y el evento existan
-        if (buscarPorParametros(correo, "email", "participante", getConn())
-                && buscarPorParametros(codigo, "codigo_evento", "evento", getConn())) {
+        if (buscarPorParametros(nuevoPago.getEmail_participante(), "email", "participante", getConn())
+                && buscarPorParametros(nuevoPago.getCodigo_evento(), "codigo_evento", "evento", getConn())) {
             //ambos existen
             System.out.println("Ambos existen, correo y evento");
-            buscarInscripcion(correo, codigo, monto, nuevoPago);//Busca inscripcion existente
+            buscarInscripcion(nuevoPago.getEmail_participante(), 
+                    nuevoPago.getCodigo_evento(), nuevoPago.getMonto(), nuevoPago);//Busca inscripcion existente
 
         } else {
             JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);

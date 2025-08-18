@@ -135,7 +135,7 @@ public class IFInscripcion extends javax.swing.JInternalFrame {
         }
 
         Inscripcion nuevaInscripcion = new Inscripcion(correo, codigo, tipo);//Crea la inscripcion
-        inscripcionDAO.comprobarExistencia(correo, codigo, nuevaInscripcion);
+        inscripcionDAO.comprobarExistencia(nuevaInscripcion);
 
     }
 

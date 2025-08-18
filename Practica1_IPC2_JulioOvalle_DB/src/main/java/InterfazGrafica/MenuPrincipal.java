@@ -40,6 +40,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         menuAsisitencia = new javax.swing.JMenu();
         menuRegistrarAsistencia = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         menuCargarArchivo = new javax.swing.JMenu();
         menuCargar = new javax.swing.JMenuItem();
         menuReportes = new javax.swing.JMenu();
@@ -71,22 +73,26 @@ public class MenuPrincipal extends javax.swing.JFrame {
         vistaEscritorio.setLayout(vistaEscritorioLayout);
         vistaEscritorioLayout.setHorizontalGroup(
             vistaEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vistaEscritorioLayout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addGroup(vistaEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(vistaEscritorioLayout.createSequentialGroup()
+                .addContainerGap(589, Short.MAX_VALUE)
+                .addComponent(btnSalir)
                 .addContainerGap())
+            .addGroup(vistaEscritorioLayout.createSequentialGroup()
+                .addGroup(vistaEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, vistaEscritorioLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         vistaEscritorioLayout.setVerticalGroup(
             vistaEscritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, vistaEscritorioLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
+                .addGap(21, 21, 21)
                 .addComponent(btnSalir)
                 .addContainerGap())
         );
@@ -187,6 +193,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuAsisitencia.add(menuRegistrarAsistencia);
 
         jMenuBar1.add(menuAsisitencia);
+
+        jMenu2.setText("Certificado");
+
+        jMenuItem2.setText("Registrar Certificado");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
 
         menuCargarArchivo.setText("Cargar Archivo");
 
@@ -289,7 +307,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void menuCargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCargarActionPerformed
         limpiarPantalla();
-        IFCargaArchivo cargar = new IFCargaArchivo(this);
+        IFCargaArchivo cargar = new IFCargaArchivo(this, conn);
         vistaEscritorio.add(cargar);
 
         cargar.show();
@@ -302,6 +320,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         validar.show();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        limpiarPantalla();
+        IFCertificado cert = new IFCertificado(conn);
+        vistaEscritorio.add(cert);
+        
+        cert.show();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void limpiarPantalla() {
 
@@ -319,12 +345,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
         this.txtAreaLectura = txtArea;
     }
 
+    public JTextArea getTxtAreaErrores() {
+        return txtAreaErrores;
+    }
+
+    public void setTxtAreaErrores(JTextArea txtAreaErrores) {
+        this.txtAreaErrores = txtAreaErrores;
+    }
+    
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MenuRegistrar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

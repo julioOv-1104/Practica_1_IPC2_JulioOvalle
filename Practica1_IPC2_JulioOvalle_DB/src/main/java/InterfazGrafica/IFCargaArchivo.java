@@ -2,15 +2,18 @@ package InterfazGrafica;
 
 import GestionArchivo.LecturaArchivo;
 import java.io.File;
+import java.sql.Connection;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class IFCargaArchivo extends javax.swing.JInternalFrame {
 
     private MenuPrincipal menu;
+    private Connection conn;
 
-    public IFCargaArchivo(MenuPrincipal menu) {
+    public IFCargaArchivo(MenuPrincipal menu, Connection conn) {
         this.menu = menu;
+        this.conn = conn;
         initComponents();
     }
 
@@ -105,7 +108,7 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
 
             } else {
                 n = Integer.parseInt(txtVelocidad.getText());
-                LecturaArchivo leer = new LecturaArchivo(txtPath.getText(), n, menu);
+                LecturaArchivo leer = new LecturaArchivo(txtPath.getText(), n, menu, conn);
                 Thread iniciar = new Thread(leer);
                 iniciar.start();
             }

@@ -11,9 +11,9 @@ public class ParticipanteDAO extends EntidadDAO {
 
     }
 
-    public void comprobarExistencia(String nombre,String correo,String insti, Participante nuevoParticipante) {
+    public void comprobarExistencia(Participante nuevoParticipante) {
         //Verifica que no exista el participante
-        if (buscarPorParametros(correo, "email", "participante", getConn())) {
+        if (buscarPorParametros(nuevoParticipante.geteMail(), "email", "participante", getConn())) {
             System.out.println("Ya existe este participante");
             JOptionPane.showMessageDialog(null, "Ya exite este participante", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
 

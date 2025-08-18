@@ -10,7 +10,8 @@ public class Evento {
     private LocalDate fecha;
     private TipoEventos tipo;
 
-    public Evento(String codigoEvento, String titulo, String ubicacion, int cupoMaximo, LocalDate fecha, TipoEventos tipo, double costo) {
+    public Evento(String codigoEvento, String titulo, String ubicacion, int cupoMaximo, LocalDate fecha, 
+            TipoEventos tipo, double costo) {
         this.codigoEvento = codigoEvento;
         this.titulo = titulo;
         this.ubicacion = ubicacion;

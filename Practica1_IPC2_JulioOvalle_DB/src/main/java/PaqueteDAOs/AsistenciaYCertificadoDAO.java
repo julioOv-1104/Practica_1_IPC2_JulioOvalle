@@ -16,21 +16,21 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
-    public void comprobarExistencia(String correo, String codigo, AsistenciaYCertificado asistencia) {
+    public void comprobarExistencia(AsistenciaYCertificado asistencia) {
 
-        //revisa que existam los datos
-        if (buscarPorParametros(correo, "email", "participante", getConn())
-                && buscarPorParametros(codigo, "codigo_actividad", "actividad", getConn())) {
+        //revisa que existam los datos de el participante y la actividad
+        if (buscarPorParametros(asistencia.getCorreoParticipante(), "email", "participante", getConn())
+                && buscarPorParametros(asistencia.getCodigoActividad(), "codigo_actividad", "actividad", getConn())) {
 
             System.out.println("Ambos existen: participante y actividad");
-            comprobarEspacios(codigo, correo, asistencia);
+            comprobarEspacios(asistencia.getCodigoActividad(), asistencia.getCorreoParticipante(), asistencia);
 
         } else {
             JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
     }
-    
+
     public void comprobarEspacios(String codigoActividad, String correo, AsistenciaYCertificado asistencia) {
 
         int cupoMaximo = 0;
@@ -77,12 +77,12 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Algo salio mal con la busqueda de cupos");
+            System.out.println("Algo salio mal con la busqueda de cupos " + e.getMessage());
         }
 
     }
-    
-    private void buscarAsistenciaDuplicada(String correo, String codigo,AsistenciaYCertificado asistencia) {
+
+    private void buscarAsistenciaDuplicada(String correo, String codigo, AsistenciaYCertificado asistencia) {
 
         String sql = "SELECT 1 FROM asistencia WHERE email_participante = ?"
                 + " AND codigo_actividad = ?";
@@ -105,7 +105,7 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             }
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("Algo salio mal con la busqueda");
+            System.out.println("Algo salio mal con la busqueda " + e.getMessage());
         }
     }
 
@@ -125,20 +125,15 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             System.out.println("Rows affected " + n);
             JOptionPane.showMessageDialog(null, "Asistencia registrada con exito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
 
-            buscarCertificadoDuplicado(asistencia);
-
         } catch (SQLException e) {
             //e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
-            System.out.println("Error al ingresar la asistencia");
+            System.out.println("Error al ingresar la asistencia " + e.getMessage());
         }
 
     }
 
     public void buscarCodigoEvento(AsistenciaYCertificado asistencia) {
 
-
-        /*String buscarCodigoEvento = "SELECT act.codigo_evento FROM asistencia a JOIN actividad act "
-                + "ON a.codigo_actividad = act.codigo_actividad WHERE a.codigo_actividad = ?";*/
         String buscarCodigo = "SELECT codigo_evento FROM actividad WHERE codigo_actividad = ?";
 
         try {
@@ -158,16 +153,16 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
-            System.out.println("Error al buscar codigo del evento");
+            System.out.println("Error al buscar codigo del evento " + e.getMessage());
         }
     }
 
-    private void buscarCertificadoDuplicado(AsistenciaYCertificado asistencia) {
+    public void buscarCertificadoDuplicado(AsistenciaYCertificado asistencia) {
 
         String buscarCertificado = "SELECT 1 FROM certificado WHERE codigo_evento = ? AND email_participante = ?";
         try {
             PreparedStatement ps = getConn().prepareStatement(buscarCertificado);
-            ps.setString(1, codigoEncontrado);
+            ps.setString(1, asistencia.getCodigoActividad());
             ps.setString(2, asistencia.getCorreoParticipante());
 
             ResultSet rs = ps.executeQuery();
@@ -175,6 +170,7 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
 
             if (rs.next()) {
                 //Si encuentra el certificado duplicado no hace nada
+                JOptionPane.showMessageDialog(null, "Ya existe este certificado", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 System.out.println("El certificado no está duplicado");
                 registrarCertificado(asistencia);
@@ -182,7 +178,8 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
 
         } catch (SQLException e) {
             //e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
-            System.out.println("Error al buscar codigo del evento");
+            System.out.println("Error al buscar codigo del evento " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al buscar codigo del evento", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -203,14 +200,16 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             if (rs.next()) {
                 //La inscripcion existe y es valida
                 registrarAsistencia(asistencia);//Crea el certificado
-                throw new SQLException();
+
             } else {
                 //no existe la inscripcion o no es valida aún
                 JOptionPane.showMessageDialog(null, "Ya existe esta asistencia", "ERROR", JOptionPane.ERROR_MESSAGE);
+                throw new SQLException();
             }
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("Algo salio mal con la busqueda");
+            System.out.println("Algo salio mal con la busqueda " + e.getMessage());
+
         }
 
     }
@@ -224,7 +223,7 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             PreparedStatement ps = getConn().prepareStatement(insertarCertificado);
 
             ps.setString(1, asistencia.getCorreoParticipante());
-            ps.setString(2, codigoEncontrado);
+            ps.setString(2, asistencia.getCodigoActividad());
 
             int n = ps.executeUpdate();
             System.out.println("sql ejecutado: " + ps);
@@ -233,7 +232,8 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
 
         } catch (SQLException e) {
             //e.printStackTrace();//lo comento porque el erro que imprime es muy grande y parece que el programa falla
-            System.out.println("Error al registrar el certificado");
+            System.out.println("Error al registrar el certificado " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al registrar el certificado", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
     }

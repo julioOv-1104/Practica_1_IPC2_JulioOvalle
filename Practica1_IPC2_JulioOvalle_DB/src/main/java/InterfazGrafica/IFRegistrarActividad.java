@@ -215,7 +215,7 @@ public class IFRegistrarActividad extends javax.swing.JInternalFrame {
         }
 
         Actividad nuevaActividad = new Actividad(codA, codE, correo, titulo, tipoA, cupo, horaIn, horaFin);
-        actividadDAO.comprobarExistencia(codA, codE, correo, horaIn, horaFin, titulo, cupo, nuevaActividad);
+        actividadDAO.comprobarExistencia(nuevaActividad);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

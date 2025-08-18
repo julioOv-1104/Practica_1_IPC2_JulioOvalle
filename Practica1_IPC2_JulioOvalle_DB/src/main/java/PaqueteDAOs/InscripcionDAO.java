@@ -10,14 +10,14 @@ public class InscripcionDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
-    public void comprobarExistencia(String correo, String codigo,Inscripcion nuevaInscripcion) {
+    public void comprobarExistencia(Inscripcion nuevaInscripcion) {
 
         //Verifica que el participante y el evento existan
-        if (buscarPorParametros(correo, "email", "participante", getConn())
-                && buscarPorParametros(codigo, "codigo_evento", "evento", getConn())) {
+        if (buscarPorParametros(nuevaInscripcion.geteMailParticipante(), "email", "participante", getConn())
+                && buscarPorParametros(nuevaInscripcion.getCodigoEvento(), "codigo_evento", "evento", getConn())) {
             //ambos existen
             System.out.println("Ambos existen, correo y evento");
-            comprobarCuposRestantes(codigo, correo, nuevaInscripcion);
+            comprobarCuposRestantes(nuevaInscripcion.getCodigoEvento(), nuevaInscripcion.geteMailParticipante(), nuevaInscripcion);
 
         } else {
             JOptionPane.showMessageDialog(null, "Hay un error en uno o ambos datos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -98,7 +98,7 @@ public class InscripcionDAO extends EntidadDAO {
             }
         } catch (SQLException e) {
             //e.printStackTrace();
-            System.out.println("Algo salio mal con la busqueda");
+            System.out.println("Algo salio mal con la busqueda de inscripciones duplicadas " +e.getMessage());
         }
 
     }
@@ -121,11 +121,10 @@ public class InscripcionDAO extends EntidadDAO {
             System.out.println("SQL ejecutado " + ps);
             JOptionPane.showMessageDialog(null, "Participante inscrito", "Todo bien", JOptionPane.PLAIN_MESSAGE);
 
-            //ps.close();
-            //conn.close();
+
         } catch (SQLException e) {
-            //e.printStackTrace();
-            System.out.println("Error al inscribir al participante");
+            
+            System.out.println("Error al inscribir al participante " +e.getMessage());
         }
     }
 

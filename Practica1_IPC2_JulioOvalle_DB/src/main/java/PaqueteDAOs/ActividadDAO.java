@@ -12,16 +12,16 @@ public class ActividadDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
-    public void comprobarExistencia(String codA, String codE, String correo, LocalTime horaIn,
-            LocalTime horaFin, String titulo, int cupo, Actividad actividad) {
+    public void comprobarExistencia(Actividad actividad) {
 
         //Si no hay una actividad con el mismo codigo,
         //Si el correo del encargado existe
         //Y si el evento existe se podrá registrar la actividad
-        if (!buscarPorParametros(codA, "codigo_actividad", "actividad", getConn()) && buscarPorParametros(correo, "email", "participante", getConn())
-                && buscarPorParametros(codE, "codigo_evento", "evento", getConn())) {
+        
+        if (!(buscarPorParametros(actividad.getCodigoActividad(), "codigo_actividad", "actividad", getConn())) && buscarPorParametros(actividad.geteMailEncargado(), "email", "participante", getConn())
+                && buscarPorParametros(actividad.getCodigoEvento(), "codigo_evento", "evento", getConn())) {
 
-            if (comprobarEncargado(correo)) {//Si cumple los parametros, crea la actividad
+            if (comprobarEncargado(actividad.geteMailEncargado())) {//Si cumple los parametros, crea la actividad
                 registrarActividad(actividad);
             }
 

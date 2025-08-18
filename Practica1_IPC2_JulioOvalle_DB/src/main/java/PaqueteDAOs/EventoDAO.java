@@ -11,10 +11,9 @@ public class EventoDAO extends EntidadDAO {
         this.setConn(conn);
     }
 
-    public void comprobarExisencia(String codigo, String titulo, String ubicacion, int cupo, LocalDate fecha, 
-            double costo, Evento evento) {
+    public void comprobarExistencia( Evento evento) {
         //Verifica si existe
-        if (buscarPorParametros(codigo, "codigo_evento", "evento", getConn())) {
+        if (buscarPorParametros(evento.getCodigoEvento(), "codigo_evento", "evento", getConn())) {
             System.out.println("Ya existe este evento");
             JOptionPane.showMessageDialog(null, "Ya exite este evento", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         } else {

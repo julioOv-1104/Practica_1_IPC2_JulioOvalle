@@ -205,7 +205,7 @@ public class IFRegistrarEvento extends javax.swing.JInternalFrame {
         }
 
         Evento nuevoEvento = new Evento(codigo, titulo, ubicacion, cupo, fecha, tipo, costo);
-        eventoDAO.comprobarExisencia(codigo, titulo, ubicacion, cupo, fecha, costo, nuevoEvento);
+        eventoDAO.comprobarExistencia(nuevoEvento);
 
     }
 

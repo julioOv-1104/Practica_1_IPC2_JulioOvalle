@@ -163,7 +163,7 @@ public class IFRegistrarParticipante extends javax.swing.JInternalFrame {
 
         Participante nuevo = new Participante(nombre, institucion, eMail, tipo);//Crea un nuevo participante
 
-        participanteDAO.comprobarExistencia(nombre, eMail, institucion, nuevo);
+        participanteDAO.comprobarExistencia(nuevo);
     }
 
 

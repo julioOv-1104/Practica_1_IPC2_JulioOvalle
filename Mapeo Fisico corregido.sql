@@ -23,8 +23,8 @@ DROP TABLE IF EXISTS `actividad`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actividad` (
-  `codigo_actividad` varchar(10) NOT NULL,
-  `codigo_evento` varchar(10) DEFAULT NULL,
+  `codigo_actividad` varchar(15) NOT NULL,
+  `codigo_evento` varchar(15) DEFAULT NULL,
   `tipo_actividad` enum('CHARLA','TALLER','DEBATE','OTRA') DEFAULT NULL,
   `email_encargado` varchar(100) DEFAULT NULL,
   `hora_inicio` time DEFAULT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE `actividad` (
 
 LOCK TABLES `actividad` WRITE;
 /*!40000 ALTER TABLE `actividad` DISABLE KEYS */;
-INSERT INTO `actividad` VALUES ('ACT-0','kp','TALLER','encargado@algo.com','13:00:00','14:00:00','prueba 2',12),('ACT-01','EV-01','TALLER','encargado@algo.com','10:00:00','11:00:00','actividad de prueba',20),('ACT-02','EV-01','DEBATE','6515@algo.com','12:00:00','13:00:00','PRUEBA DE CUPO',1),('akaka','kp','TALLER','uuuuuu','10:00:00','11:00:00','pri',50);
+INSERT INTO `actividad` VALUES ('ACT-00000001','EVT-00000001','CHARLA','link@hyrule.com','10:00:00','12:00:00','Nuevos Runes',30),('ACT-00000002','EVT-00000002','TALLER','mipha@zora.net','09:00:00','11:00:00','Forja Básica',20);
 /*!40000 ALTER TABLE `actividad` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `asistencia`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `asistencia` (
   `email_participante` varchar(100) DEFAULT NULL,
-  `codigo_actividad` varchar(10) DEFAULT NULL,
+  `codigo_actividad` varchar(15) DEFAULT NULL,
   KEY `email_participante` (`email_participante`),
   KEY `codigo_actividad` (`codigo_actividad`),
   CONSTRAINT `asistencia_ibfk_1` FOREIGN KEY (`email_participante`) REFERENCES `participante` (`email`),
@@ -72,7 +72,7 @@ CREATE TABLE `asistencia` (
 
 LOCK TABLES `asistencia` WRITE;
 /*!40000 ALTER TABLE `asistencia` DISABLE KEYS */;
-INSERT INTO `asistencia` VALUES ('uuuuuu','akaka'),('encargado@algo.com','ACT-01'),('encargado@algo.com','akaka'),('6515@algo.com','ACT-02');
+INSERT INTO `asistencia` VALUES ('zelda@hyrule.edu','ACT-00000001'),('impa@kakariko.org','ACT-00000001'),('link@hyrule.com','ACT-00000001'),('urbosa@gerudo.gov','ACT-00000002'),('link@hyrule.com','ACT-00000002');
 /*!40000 ALTER TABLE `asistencia` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS `certificado`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `certificado` (
   `email_participante` varchar(100) DEFAULT NULL,
-  `codigo_evento` varchar(10) DEFAULT NULL,
+  `codigo_evento` varchar(15) DEFAULT NULL,
   KEY `email_participante` (`email_participante`),
   KEY `codigo_evento` (`codigo_evento`),
   CONSTRAINT `certificado_ibfk_1` FOREIGN KEY (`email_participante`) REFERENCES `participante` (`email`),
@@ -99,7 +99,7 @@ CREATE TABLE `certificado` (
 
 LOCK TABLES `certificado` WRITE;
 /*!40000 ALTER TABLE `certificado` DISABLE KEYS */;
-INSERT INTO `certificado` VALUES ('encargado@algo.com','EV-01'),('encargado@algo.com','kp'),('6515@algo.com','EV-01');
+INSERT INTO `certificado` VALUES ('zelda@hyrule.edu','EVT-00000001'),('impa@kakariko.org','EVT-00000001'),('link@hyrule.com','EVT-00000001'),('urbosa@gerudo.gov','EVT-00000002'),('link@hyrule.com','EVT-00000002');
 /*!40000 ALTER TABLE `certificado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +111,7 @@ DROP TABLE IF EXISTS `evento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `evento` (
-  `codigo_evento` varchar(10) NOT NULL,
+  `codigo_evento` varchar(15) NOT NULL,
   `fecha` date DEFAULT NULL,
   `tipo_evento` enum('CHARLA','CONGRESO','TALLER','DEBATE') DEFAULT NULL,
   `titulo` varchar(200) DEFAULT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE `evento` (
 
 LOCK TABLES `evento` WRITE;
 /*!40000 ALTER TABLE `evento` DISABLE KEYS */;
-INSERT INTO `evento` VALUES ('apapapa','2000-01-02','CONGRESO','primera prueba','donde sea',20,0),('EV-01','2025-08-13','CONGRESO','prueba','donde sea',25,0),('EV-02','2025-08-13','TALLER','PRUEBA DE CUPOS','AQUI',1,0),('EVE','2025-08-16','CONGRESO','Evento costo','sdsfsf',50,120),('EVENTO 2','2025-08-16','CONGRESO','Evento costo 2','sdsfsf',50,50.5),('kp','2000-04-04','CHARLA','sfsfsfsf','wffe',25,0);
+INSERT INTO `evento` VALUES ('EVT-00000001','2025-08-25','CHARLA','Tecnología Sheikah','Auditorio Central',150,50),('EVT-00000002','2025-08-26','TALLER','Forja de Espadas','Sala Taller 1',50,120);
 /*!40000 ALTER TABLE `evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -142,7 +142,7 @@ DROP TABLE IF EXISTS `inscripcion`;
 CREATE TABLE `inscripcion` (
   `tipo_inscripcion` enum('ASISTENTE','CONFERENCISTA','TALLERISTA','OTRO') DEFAULT NULL,
   `email_participante` varchar(100) DEFAULT NULL,
-  `codigo_evento` varchar(10) DEFAULT NULL,
+  `codigo_evento` varchar(15) DEFAULT NULL,
   `es_valida` tinyint(1) DEFAULT NULL,
   KEY `email_participante` (`email_participante`),
   KEY `codigo_evento` (`codigo_evento`),
@@ -157,7 +157,7 @@ CREATE TABLE `inscripcion` (
 
 LOCK TABLES `inscripcion` WRITE;
 /*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
-INSERT INTO `inscripcion` VALUES ('ASISTENTE','julio@algo.com','apapapa',1),('TALLERISTA','uuuuuu','kp',1),('ASISTENTE','pppp@algo.com','kp',1),('CONFERENCISTA','encargado@algo.com','EV-01',1),('TALLERISTA','encargado@algo.com','kp',1),('TALLERISTA','6515@algo.com','kp',1),('TALLERISTA','6515@algo.com','EV-02',0),('ASISTENTE','6515@algo.com','EV-01',1),('CONFERENCISTA','julio@algo.com','EVENTO 2',1),('CONFERENCISTA','encargado@algo.com','EVENTO 2',1),('TALLERISTA','uuuuuu','EVENTO 2',1);
+INSERT INTO `inscripcion` VALUES ('ASISTENTE','zelda@hyrule.edu','EVT-00000001',1),('CONFERENCISTA','link@hyrule.com','EVT-00000001',1),('ASISTENTE','impa@kakariko.org','EVT-00000001',1),('ASISTENTE','daruk@goron.co','EVT-00000001',1),('TALLERISTA','mipha@zora.net','EVT-00000002',1),('ASISTENTE','urbosa@gerudo.gov','EVT-00000002',1),('ASISTENTE','link@hyrule.com','EVT-00000002',1);
 /*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,7 +170,7 @@ DROP TABLE IF EXISTS `pago`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `pago` (
   `email_participante` varchar(100) DEFAULT NULL,
-  `codigo_evento` varchar(10) DEFAULT NULL,
+  `codigo_evento` varchar(15) DEFAULT NULL,
   `metodo_pago` enum('EFECTIVO','TRANSFERENCIA','TARJETA') DEFAULT NULL,
   `monto` double DEFAULT NULL,
   KEY `email_participante` (`email_participante`),
@@ -186,7 +186,7 @@ CREATE TABLE `pago` (
 
 LOCK TABLES `pago` WRITE;
 /*!40000 ALTER TABLE `pago` DISABLE KEYS */;
-INSERT INTO `pago` VALUES ('julio@algo.com','apapapa','TRANSFERENCIA',50),('uuuuuu','kp','EFECTIVO',50),('pppp@algo.com','kp','EFECTIVO',50),('encargado@algo.com','EV-01','EFECTIVO',50),('encargado@algo.com','kp','EFECTIVO',50),('6515@algo.com','kp','EFECTIVO',50),('6515@algo.com','EV-01','EFECTIVO',50),('julio@algo.com','EVENTO 2','EFECTIVO',50),('encargado@algo.com','EVENTO 2','EFECTIVO',50),('uuuuuu','EVENTO 2','TRANSFERENCIA',50.8);
+INSERT INTO `pago` VALUES ('zelda@hyrule.edu','EVT-00000001','EFECTIVO',50),('link@hyrule.com','EVT-00000001','TRANSFERENCIA',50),('impa@kakariko.org','EVT-00000001','TARJETA',50),('daruk@goron.co','EVT-00000001','EFECTIVO',50),('mipha@zora.net','EVT-00000002','TRANSFERENCIA',120),('urbosa@gerudo.gov','EVT-00000002','TARJETA',120),('link@hyrule.com','EVT-00000002','EFECTIVO',120);
 /*!40000 ALTER TABLE `pago` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `participante` (
 
 LOCK TABLES `participante` WRITE;
 /*!40000 ALTER TABLE `participante` DISABLE KEYS */;
-INSERT INTO `participante` VALUES (' uuuuuu ','eeeee','ESTUDIANTE','bdfbdfb'),('6515@algo.com','CUNOC','PROFESIONAL','Allan'),('ajajsjsjsjsj@algo.com','CUNOC','PROFESIONAL','julio'),('encargado@algo.com','CUNOC','PROFESIONAL','encargado'),('GGGGGGG@algo.com','CUNOC','PROFESIONAL','Allan'),('hyhhyhhy@algo.com','sdccscsc','INVITADO','refeferf'),('julio@algo.com','CUNOC','ESTUDIANTE','julio'),('pppp@algo.com','cddddd','PROFESIONAL','dffgb'),('uuuuuu','eeeeeeeee','INVITADO','hngngng');
+INSERT INTO `participante` VALUES ('daruk@goron.co','Goron Co.','INVITADO','Daruk Goron'),('impa@kakariko.org','Kakariko Institute','PROFESIONAL','Impa Noh'),('link@hyrule.com','Triforce Software','PROFESIONAL','Link Hyrule'),('mipha@zora.net','Zora Clinic','PROFESIONAL','Mipha Zora'),('urbosa@gerudo.gov','Gerudo Council','PROFESIONAL','Urbosa Gerudo'),('zelda@hyrule.edu','Universidad de Hyrule','ESTUDIANTE','Zelda Hyrule');
 /*!40000 ALTER TABLE `participante` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -225,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-16 21:36:10
+-- Dump completed on 2025-08-17 20:26:43
