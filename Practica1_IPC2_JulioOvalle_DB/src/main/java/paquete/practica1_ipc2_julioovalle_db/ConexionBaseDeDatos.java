@@ -7,8 +7,8 @@ public class ConexionBaseDeDatos {
     private static final String IP = "localhost";
     private static final int PUERTO = 3306;
     private static final String SCHEMA = "eventos_hyrule";
-    private static final String USER = "root";
-    private static final String PASSWORD = "julioadmin";
+    private static final String USER = "universal";
+    private static final String PASSWORD = "12345";
 
     private static final String URL = "jdbc:mysql://" + IP + ":" + PUERTO + "/" + SCHEMA;
 
