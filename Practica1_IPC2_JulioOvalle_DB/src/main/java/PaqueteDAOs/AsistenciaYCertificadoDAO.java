@@ -1,5 +1,6 @@
 package PaqueteDAOs;
 
+import GestionArchivo.GeneradorDeReportes;
 import PaqueteEntidades.Actividad;
 import PaqueteEntidades.AsistenciaYCertificado;
 import java.sql.Connection;
@@ -11,8 +12,10 @@ import javax.swing.JOptionPane;
 public class AsistenciaYCertificadoDAO extends EntidadDAO {
 
     private String codigoEncontrado;
+    private String ruta;
 
-    public AsistenciaYCertificadoDAO(Connection conn) {
+    public AsistenciaYCertificadoDAO(Connection conn, String ruta) {
+        this.ruta = ruta;
         this.setConn(conn);
     }
 
@@ -235,6 +238,9 @@ public class AsistenciaYCertificadoDAO extends EntidadDAO {
             System.out.println("Error al registrar el certificado " + e.getMessage());
             JOptionPane.showMessageDialog(null, "Error al registrar el certificado", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
+        
+        GeneradorDeReportes gen = new GeneradorDeReportes(getConn(),ruta);
+        gen.generarReporteCertificados(ruta);
 
     }
 

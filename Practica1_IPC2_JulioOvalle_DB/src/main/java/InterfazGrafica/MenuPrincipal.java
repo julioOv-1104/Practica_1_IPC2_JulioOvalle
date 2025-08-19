@@ -233,6 +233,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuReportes.add(jMenuItem3);
 
         jMenuItem4.setText("Reportes de Actividades");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         menuReportes.add(jMenuItem4);
 
         jMenuItem5.setText("Reportes de Eventos");
@@ -318,7 +323,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void menuRegistrarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuRegistrarAsistenciaActionPerformed
         limpiarPantalla();
-        IFRegistrarAsistencias asist = new IFRegistrarAsistencias(conn);
+        IFRegistrarAsistencias asist = new IFRegistrarAsistencias(conn,ruta);
         vistaEscritorio.add(asist);
 
         asist.show();
@@ -342,7 +347,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         limpiarPantalla();
-        IFCertificado cert = new IFCertificado(conn);
+        IFCertificado cert = new IFCertificado(conn, ruta);
         vistaEscritorio.add(cert);
 
         cert.show();
@@ -355,6 +360,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         reporteParticipantes.show();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        limpiarPantalla();
+        IFReportesActividades reporteAct = new IFReportesActividades(conn,ruta);
+        vistaEscritorio.add(reporteAct);
+
+        reporteAct.show();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void limpiarPantalla() {
 

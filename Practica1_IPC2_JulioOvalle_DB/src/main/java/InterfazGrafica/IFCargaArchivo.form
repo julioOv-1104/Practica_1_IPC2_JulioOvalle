@@ -32,10 +32,8 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="btnBuscarEntrada" min="-2" max="-2" attributes="0"/>
                               <Component id="txtPathEntrada" pref="353" max="32767" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="txtVelocidad" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="txtVelocidad" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                               <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="txtPathSalida" alignment="0" max="32767" attributes="0"/>

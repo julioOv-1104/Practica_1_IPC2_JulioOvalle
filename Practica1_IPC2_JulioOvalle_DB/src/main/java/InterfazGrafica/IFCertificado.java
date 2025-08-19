@@ -7,13 +7,15 @@ import javax.swing.JOptionPane;
 
 public class IFCertificado extends javax.swing.JInternalFrame {
     
-    Connection conn;
-    AsistenciaYCertificadoDAO asistenciaDAO;
+    private Connection conn;
+    private AsistenciaYCertificadoDAO asistenciaDAO;
+    private String ruta;
 
-    public IFCertificado(Connection conn) {
+    public IFCertificado(Connection conn, String ruta) {
         initComponents();
+        this.ruta = ruta;
         this.conn = conn;
-        this.asistenciaDAO = new AsistenciaYCertificadoDAO(conn);
+        this.asistenciaDAO = new AsistenciaYCertificadoDAO(conn, ruta);
     }
 
     @SuppressWarnings("unchecked")

@@ -21,22 +21,51 @@ public class GeneradorDeReportes {
         this.conn = conn;
         this.ruta = ruta;
     }
+    
+    
+    public List<Certificados> obtenerCertificadoss() {
 
-    public void generarReporteEventos(List<Evento> eventos, String rutaDestino) {
+        //Lista en donde iran los objetos que se mostraran en los reportes
+        List<Certificados> lista = new ArrayList<>();
+        TipoParticipantes tipo = TipoParticipantes.ESTUDIANTE;//por defecto
+        String sql = "SELECT email_participante, codigo_evento FROM certificado;";
+
+        System.out.println(sql);
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Certificados cert = new Certificados(
+                        rs.getString("email_participante"),                       
+                        rs.getString("codigo_evento")
+                );
+                lista.add(cert);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error en los datos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
+        return lista;
+    }
+
+    public void generarReporteCertificados( String rutaDestino) {
+        
+        List<Certificados> certificados = obtenerCertificadoss();
 
         StringBuilder html = new StringBuilder();
 
-        html.append("<html><head><title>Reporte de Eventos</title></head><body>");
-        html.append("<h1>Eventos Registrados</h1>");
+        html.append("<html><head><title>Certificados</title></head><body>");
+        html.append("<h1>Certificados</h1>");
         html.append("<table border='1'>");
-        html.append("<tr><th>Código</th><th>Título</th><th>Fecha</th><th>Cupo</th></tr>");
+        html.append("<tr><th>Email_participante</th><th>Codigo_evento</th></tr>");
 
-        for (Evento e : eventos) {
+        for (Certificados c : certificados) {
             html.append("<tr>")
-                    .append("<td>").append(e.getCodigoEvento()).append("</td>")
-                    .append("<td>").append(e.getTitulo()).append("</td>")
-                    .append("<td>").append(e.getFecha()).append("</td>")
-                    .append("<td>").append(e.getCupoMaximo()).append("</td>")
+                    .append("<td>").append(c.getEmail_participante()).append("</td>")
+                    .append("<td>").append(c.getCodigo_evento()).append("</td>")
                     .append("</tr>");
         }
 
@@ -44,7 +73,7 @@ public class GeneradorDeReportes {
         html.append("</body></html>");
 
         try {
-            FileWriter writer = new FileWriter(rutaDestino + "/reporte_eventos.html");
+            FileWriter writer = new FileWriter(rutaDestino + "/Certificados.html");
             writer.write(html.toString());
             writer.close();
             System.out.println("Reporte generado en: " + rutaDestino);
@@ -78,7 +107,7 @@ public class GeneradorDeReportes {
         html.append("</body></html>");
 
         try {
-            FileWriter writer = new FileWriter(rutaDestino + "/reporte_eventos.html");
+            FileWriter writer = new FileWriter(rutaDestino + "/reporte_participantes.html");
             writer.write(html.toString());
             writer.close();
             System.out.println("Reporte de participantes escrito en: " + rutaDestino);
@@ -134,10 +163,11 @@ public class GeneradorDeReportes {
 
         StringBuilder html = new StringBuilder();
 
-        html.append("<html><head><title>Reporte de Participantes</title></head><body>");
-        html.append("<h1>Participantes Inscritos</h1>");
+        html.append("<html><head><title>Reporte de Actividades</title></head><body>");
+        html.append("<h1>Infromacion de Actividades</h1>");
         html.append("<table border='1'>");
-        html.append("<tr><th>Correo</th><th>Tipo</th><th>Nombre</th><th>Institucion</th><th>Validado o no</th></tr>");
+        html.append("<tr><th>Coigo_actividad</th><th>Codigo_evento</th><th>Titulo</th><th>Nombre_encargado</th><th>Hora_inicio</th>"
+                + "<th>Cupo_maximo</th><th>Participantes</th></tr>");
 
         for (ReportesActividades a : actividades) {
 
@@ -156,7 +186,7 @@ public class GeneradorDeReportes {
         html.append("</body></html>");
 
         try {
-            FileWriter writer = new FileWriter(rutaDestino + "/reporte_eventos.html");
+            FileWriter writer = new FileWriter(rutaDestino + "/reporte_actividades.html");
             writer.write(html.toString());
             writer.close();
             System.out.println("Reporte de actividades escrito en: " + rutaDestino);
@@ -188,10 +218,10 @@ public class GeneradorDeReportes {
                         rs.getString("codigo_actividad"),
                         rs.getString("codigo_evento"),
                         rs.getString("titulo"),
-                        rs.getString("nombre"),
+                        rs.getString("nombre_encargado"),
                         hora = LocalTime.parse(rs.getString("hora_inicio")),
                         cupo = Integer.parseInt(rs.getString("cupo_maximo")),
-                        cantidad = Integer.parseInt(rs.getString("COUNT(*)"))
+                        cantidad = Integer.parseInt(rs.getString("participantes"))
                         
                 );
                 

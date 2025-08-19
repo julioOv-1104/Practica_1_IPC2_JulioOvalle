@@ -114,6 +114,7 @@ public class IFReportesParticipantes extends javax.swing.JInternalFrame {
             codigoInstitucion();
 
         } else if (txtInstitucion.getText().isEmpty() && (jComboTipo.getSelectedIndex() == 0)) {
+            System.out.println("ENTRO AQUI SOLO CODIGO");
             //El usuario ingresó todos los filtros
             soloCodigo();
 

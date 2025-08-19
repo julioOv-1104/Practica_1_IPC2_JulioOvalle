@@ -119,6 +119,7 @@ public class IFReportesActividades extends javax.swing.JInternalFrame {
             codigoCorreo();
 
         } else if (txtCorreo.getText().isEmpty() && (jComboBoxTipoActividad.getSelectedIndex() == 0)) {
+            System.out.println("ENTRO AQUI SOLO CODIGO EN ACTIVIDADES");
             //El usuario ingresó todos los filtros
             soloCodigo();
 
@@ -131,9 +132,12 @@ public class IFReportesActividades extends javax.swing.JInternalFrame {
     
     private void codigoTipo() {
 
-        String sql = "SELECT email,tipo_participante,nombre,institucion,es_valida FROM participante INNER JOIN inscripcion"
-                + " ON participante.email = inscripcion.email_participante AND inscripcion.codigo_evento = '%s' "
-                + "AND participante.tipo_participante = '%s';";
+        String sql = "SELECT actividad.codigo_actividad, actividad.codigo_evento, actividad.titulo,"
+                + " participante.nombre AS nombre_encargado, actividad.hora_inicio, actividad.cupo_maximo, COUNT(*) AS participantes "
+                + "FROM actividad INNER JOIN participante ON actividad.email_encargado = participante.email INNER JOIN asistencia ON "
+                + "asistencia.codigo_actividad = actividad.codigo_actividad WHERE actividad.codigo_evento = '%s' AND "
+                + "actividad.tipo_actividad = '%s'  GROUP BY actividad.codigo_actividad, actividad.codigo_evento, actividad.titulo, "
+                + "participante.nombre,actividad.hora_inicio, actividad.cupo_maximo;";
 
         String tipo = (String) jComboBoxTipoActividad.getSelectedItem();
         String completo = String.format(sql, txtEvento.getText(), tipo);
@@ -143,9 +147,13 @@ public class IFReportesActividades extends javax.swing.JInternalFrame {
 
     private void codigoCorreo() {
 
-        String sql = "SELECT email,tipo_participante,nombre,institucion,es_valida FROM participante INNER JOIN inscripcion"
-                + " ON participante.email = inscripcion.email_participante AND inscripcion.codigo_evento = '%s' "
-                + "AND participante.institucion = '%s';";
+        String sql = "SELECT actividad.codigo_actividad, actividad.codigo_evento, actividad.titulo, participante.nombre "
+                + "AS nombre_encargado, actividad.hora_inicio, actividad.cupo_maximo, COUNT(*) AS participantes FROM "
+                + "actividad INNER JOIN participante ON actividad.email_encargado = participante.email INNER JOIN "
+                + "asistencia ON asistencia.codigo_actividad = actividad.codigo_actividad WHERE "
+                + "actividad.codigo_evento = '%s' AND participante.email = '%s'  "
+                + "GROUP BY actividad.codigo_actividad, actividad.codigo_evento, actividad.titulo, participante.nombre,"
+                + "actividad.hora_inicio, actividad.cupo_maximo;";
         String completo = String.format(sql, txtEvento.getText(), txtCorreo.getText());
 
         pedirReportes(completo);
@@ -153,9 +161,13 @@ public class IFReportesActividades extends javax.swing.JInternalFrame {
 
     private void todosLosFiltros() {
 
-        String sql = "SELECT email,tipo_participante,nombre,institucion,es_valida FROM participante INNER JOIN inscripcion"
-                + " ON participante.email = inscripcion.email_participante AND inscripcion.codigo_evento = '%s' "
-                + "AND participante.tipo_participante = '%s' AND participante.institucion = '%s';";
+        String sql = "SELECT actividad.codigo_actividad, actividad.codigo_evento, actividad.titulo, participante.nombre "
+                + "AS nombre_encargado, actividad.hora_inicio, actividad.cupo_maximo, COUNT(*) AS participantes FROM "
+                + "actividad INNER JOIN participante ON actividad.email_encargado = participante.email INNER JOIN "
+                + "asistencia ON asistencia.codigo_actividad = actividad.codigo_actividad WHERE "
+                + "actividad.codigo_evento = '%s' AND participante.email = '%s' AND "
+                + "actividad.tipo_actividad = '%s'  GROUP BY actividad.codigo_actividad, actividad.codigo_evento, "
+                + "actividad.titulo, participante.nombre,actividad.hora_inicio, actividad.cupo_maximo;";
 
         String tipo = (String) jComboBoxTipoActividad.getSelectedItem();
         String completo = String.format(sql, txtEvento.getText(), tipo, txtCorreo.getText());
@@ -165,8 +177,12 @@ public class IFReportesActividades extends javax.swing.JInternalFrame {
 
     private void soloCodigo() {
 
-        String sql = "SELECT email,tipo_participante,nombre,institucion,es_valida FROM participante INNER JOIN inscripcion"
-                + " ON participante.email = inscripcion.email_participante AND inscripcion.codigo_evento = '%s' ;";
+        String sql = "SELECT actividad.codigo_actividad, actividad.codigo_evento, actividad.titulo, participante.nombre "
+                + "AS nombre_encargado, actividad.hora_inicio, actividad.cupo_maximo, COUNT(*) AS participantes FROM "
+                + "actividad INNER JOIN participante ON actividad.email_encargado = participante.email INNER JOIN "
+                + "asistencia ON asistencia.codigo_actividad = actividad.codigo_actividad WHERE "
+                + "actividad.codigo_evento = '%s' GROUP BY actividad.codigo_actividad, actividad.codigo_evento, "
+                + "actividad.titulo, participante.nombre,actividad.hora_inicio, actividad.cupo_maximo;";
 
         String completo = String.format(sql, txtEvento.getText());
 

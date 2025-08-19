@@ -244,7 +244,7 @@ public class LecturaArchivo implements Runnable {
         try {
 
             AsistenciaYCertificado nuevaAsistencia = new AsistenciaYCertificado(valores[0], valores[1]);
-            AsistenciaYCertificadoDAO asis = new AsistenciaYCertificadoDAO(conn);
+            AsistenciaYCertificadoDAO asis = new AsistenciaYCertificadoDAO(conn, archivo.getAbsolutePath());
             asis.comprobarExistencia(nuevaAsistencia);
             
         } catch (Exception e) {
@@ -258,7 +258,7 @@ public class LecturaArchivo implements Runnable {
         try {
 
             AsistenciaYCertificado nuevoCertificado = new AsistenciaYCertificado(valores[0], valores[1]);
-            AsistenciaYCertificadoDAO certi = new AsistenciaYCertificadoDAO(conn);
+            AsistenciaYCertificadoDAO certi = new AsistenciaYCertificadoDAO(conn, archivo.getAbsolutePath());
             certi.buscarCertificadoDuplicado(nuevoCertificado);
             
         } catch (Exception e) {

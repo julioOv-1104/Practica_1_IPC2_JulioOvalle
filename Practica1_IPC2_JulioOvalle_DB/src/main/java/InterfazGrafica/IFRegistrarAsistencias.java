@@ -7,13 +7,15 @@ import javax.swing.JOptionPane;
 
 public class IFRegistrarAsistencias extends javax.swing.JInternalFrame {
 
-    Connection conn;
+    private Connection conn;
     private AsistenciaYCertificadoDAO asistenciaDAO;
+    private String ruta;
 
-    public IFRegistrarAsistencias(Connection conn) {
+    public IFRegistrarAsistencias(Connection conn, String ruta) {
         initComponents();
+        this.ruta = ruta;
         this.conn = conn;
-        this.asistenciaDAO = new AsistenciaYCertificadoDAO(conn);
+        this.asistenciaDAO = new AsistenciaYCertificadoDAO(conn,ruta);
     }
 
     @SuppressWarnings("unchecked")
