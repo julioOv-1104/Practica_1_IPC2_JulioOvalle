@@ -162,8 +162,8 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
 
         try {
 
-            //txtPathEntrada.getText().isEmpty() ||
-            if ( txtVelocidad.getText().isEmpty() || txtPathSalida.getText().isEmpty()) {
+            
+            if (txtPathEntrada.getText().isEmpty() || txtVelocidad.getText().isEmpty() || txtPathSalida.getText().isEmpty()) {
                 System.out.println("No hay ningun archivo");
                 JOptionPane.showMessageDialog(null, "Tiene que especificar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
 
