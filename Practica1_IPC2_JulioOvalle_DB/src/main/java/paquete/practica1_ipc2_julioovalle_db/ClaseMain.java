@@ -1,5 +1,6 @@
 package paquete.practica1_ipc2_julioovalle_db;
 
+import GestionArchivo.GeneradorDeReportes;
 import InterfazGrafica.MenuPrincipal;
 import PaqueteDAOs.*;
 import PaqueteEntidades.*;
@@ -18,20 +19,9 @@ public class ClaseMain {
 
         MenuPrincipal menu = new MenuPrincipal(conn);
         menu.setVisible(true);
-
-        /*System.out.println("Ingrese nombre");
-        String nombre = escaner.nextLine();
-
-        System.out.println("Ingrese Instituto");
-        String instit = escaner.nextLine();
-
-        System.out.println("Ingrese eMail");
-        String eMail = escaner.nextLine();
-
         
-        Participante nuevoPart = new Participante(nombre,instit,eMail,TipoParticipantes.ESTUDIANTE);
-        
-        ParticipanteDAO participanteDAO = new ParticipanteDAO(conn);
-        participanteDAO.registrarParticipante(nuevoPart);*/
+        GeneradorDeReportes generador = new GeneradorDeReportes(conn);
+        generador.crearReportePrueba();
+
     }
 }

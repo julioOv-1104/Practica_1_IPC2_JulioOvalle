@@ -1,15 +1,27 @@
-package PaqueteEntidades;
+package Reportes;
 
-public class Participante {
+import PaqueteEntidades.TipoParticipantes;
+
+public class ReportesParticipantes {
 
     private String nombre, institucion, eMail;
-    private TipoParticipantes Tipo;
+    private TipoParticipantes tipo;
+    private boolean esValida;
 
-    public Participante(String nombre, String institucion, String eMail, TipoParticipantes Tipo) {
+    public ReportesParticipantes(String eMail, TipoParticipantes tipo, String nombre, String institucion, boolean esValida) {
         this.nombre = nombre;
         this.institucion = institucion;
         this.eMail = eMail;
-        this.Tipo = Tipo;
+        this.tipo = tipo;
+        this.esValida = esValida;
+    }
+
+    public boolean isEsValida() {
+        return esValida;
+    }
+
+    public void setEsValida(boolean esValida) {
+        this.esValida = esValida;
     }
 
     public String getNombre() {
@@ -37,11 +49,11 @@ public class Participante {
     }
 
     public TipoParticipantes getTipo() {
-        return Tipo;
+        return tipo;
     }
 
-    public void setTipo(TipoParticipantes Tipo) {
-        this.Tipo = Tipo;
+    public void setTipo(TipoParticipantes tipo) {
+        this.tipo = tipo;
     }
 
 }

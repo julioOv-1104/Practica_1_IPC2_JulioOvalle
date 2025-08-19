@@ -45,6 +45,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuCargarArchivo = new javax.swing.JMenu();
         menuCargar = new javax.swing.JMenuItem();
         menuReportes = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -219,6 +222,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(menuCargarArchivo);
 
         menuReportes.setText("Reportes");
+
+        jMenuItem3.setText("Reportesde Participantes");
+        menuReportes.add(jMenuItem3);
+
+        jMenuItem4.setText("Reportes de Actividades");
+        menuReportes.add(jMenuItem4);
+
+        jMenuItem5.setText("Reportes de Eventos");
+        menuReportes.add(jMenuItem5);
+
         jMenuBar1.add(menuReportes);
 
         setJMenuBar(jMenuBar1);
@@ -363,6 +376,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

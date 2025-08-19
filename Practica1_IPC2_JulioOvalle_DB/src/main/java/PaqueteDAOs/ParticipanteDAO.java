@@ -49,24 +49,5 @@ public class ParticipanteDAO extends EntidadDAO {
 
     }
 
-    /*public boolean buscarParticipantePorCorreo(String correo) {
-        //Busca si hay un participante que tenga el mismo correo electronico
-        String sql = "SELECT email FROM participante WHERE email = ?";
 
-        try {
-            PreparedStatement ps = getConn().prepareStatement(sql);
-            ps.setString(1, correo);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (SQLException e) {
-            System.out.println("Algo salio mal con la busqueda del participante");
-        }
-
-        return false;
-    }*/
 }
