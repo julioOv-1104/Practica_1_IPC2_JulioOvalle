@@ -10,11 +10,20 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
 
     private MenuPrincipal menu;
     private Connection conn;
+    private String ruta;
 
     public IFCargaArchivo(MenuPrincipal menu, Connection conn) {
         this.menu = menu;
         this.conn = conn;
         initComponents();
+    }
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
     }
 
     @SuppressWarnings("unchecked")
@@ -138,7 +147,9 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
             jfc.showOpenDialog(null);
 
             File carpeta = jfc.getSelectedFile();
-            txtPathSalida.setText(carpeta.getAbsolutePath());
+            ruta = carpeta.getAbsolutePath();
+            txtPathSalida.setText(ruta);
+            menu.setRuta(ruta);
 
         } catch (Exception e) {
             System.out.println("No selecciono ningun archivo");
@@ -151,7 +162,7 @@ public class IFCargaArchivo extends javax.swing.JInternalFrame {
 
         try {
 
-            if (txtPathEntrada.getText().isEmpty() || txtVelocidad.getText().isEmpty() || txtPathSalida.getText().isEmpty()) {
+            if ( txtPathEntrada.getText().isEmpty() ||txtVelocidad.getText().isEmpty() || txtPathSalida.getText().isEmpty()) {
                 System.out.println("No hay ningun archivo");
                 JOptionPane.showMessageDialog(null, "Tiene que especificar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
 

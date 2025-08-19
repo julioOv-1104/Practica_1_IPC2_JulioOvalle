@@ -19,9 +19,6 @@ public class ClaseMain {
 
         MenuPrincipal menu = new MenuPrincipal(conn);
         menu.setVisible(true);
-        
-        GeneradorDeReportes generador = new GeneradorDeReportes(conn);
-        generador.crearReportePrueba();
 
     }
 }

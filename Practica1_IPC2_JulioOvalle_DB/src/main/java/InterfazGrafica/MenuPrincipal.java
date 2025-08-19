@@ -5,7 +5,8 @@ import javax.swing.*;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    Connection conn;
+    private Connection conn;
+    private String ruta;
 
     public MenuPrincipal(Connection conn) {
         initComponents();
@@ -224,6 +225,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         menuReportes.setText("Reportes");
 
         jMenuItem3.setText("Reportesde Participantes");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         menuReportes.add(jMenuItem3);
 
         jMenuItem4.setText("Reportes de Actividades");
@@ -338,9 +344,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         limpiarPantalla();
         IFCertificado cert = new IFCertificado(conn);
         vistaEscritorio.add(cert);
-        
+
         cert.show();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        limpiarPantalla();
+        IFReportesParticipantes reporteParticipantes = new IFReportesParticipantes(conn,ruta);
+        vistaEscritorio.add(reporteParticipantes);
+
+        reporteParticipantes.show();
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void limpiarPantalla() {
 
@@ -365,8 +379,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public void setTxtAreaErrores(JTextArea txtAreaErrores) {
         this.txtAreaErrores = txtAreaErrores;
     }
-    
-    
+
+    public String getRuta() {
+        return ruta;
+    }
+
+    public void setRuta(String ruta) {
+        this.ruta = ruta;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu MenuRegistrar;

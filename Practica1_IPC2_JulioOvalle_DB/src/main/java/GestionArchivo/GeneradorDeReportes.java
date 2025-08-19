@@ -1,5 +1,6 @@
 package GestionArchivo;
 
+import InterfazGrafica.*;
 import PaqueteEntidades.*;
 import Reportes.ReportesParticipantes;
 import java.io.*;
@@ -10,10 +11,13 @@ import javax.swing.JOptionPane;
 
 public class GeneradorDeReportes {
 
-    Connection conn;
+    private Connection conn;
+    private String ruta;
+    IFCargaArchivo archivocargado;
 
-    public GeneradorDeReportes(Connection conn) {
+    public GeneradorDeReportes(Connection conn, String ruta) {
         this.conn = conn;
+        this.ruta = ruta;
     }
 
     public void generarReporteEventos(List<Evento> eventos, String rutaDestino) {
@@ -80,12 +84,14 @@ public class GeneradorDeReportes {
         }
     }
 
+    //Este metodo se encarga de filtrar los datos en la BD
     public List<ReportesParticipantes> obtenerParticipantes(String sql) {
 
         //Lista en donde iran los objetos que se mostraran en los reportes
         List<ReportesParticipantes> lista = new ArrayList<>();
         TipoParticipantes tipo = TipoParticipantes.ESTUDIANTE;//por defecto
         //String sql = "SELECT * FROM evento WHERE fecha_evento = ?";
+        System.out.println(sql);
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -111,7 +117,7 @@ public class GeneradorDeReportes {
 
     public void crearReportePrueba() {
 
-        String ruta = "C:\\Users\\Usuario\\OneDrive\\Documents\\Reportes html";
+       // String ruta = "C:\\Users\\Usuario\\OneDrive\\Documents\\Reportes html";
 
         String sql = "SELECT email,tipo_participante,nombre,institucion,es_valida FROM participante INNER JOIN inscripcion"
                 + " ON participante.email = inscripcion.email_participante AND inscripcion.codigo_evento = 'EVT-00000001' "
