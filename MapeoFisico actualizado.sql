@@ -99,7 +99,7 @@ CREATE TABLE `certificado` (
 
 LOCK TABLES `certificado` WRITE;
 /*!40000 ALTER TABLE `certificado` DISABLE KEYS */;
-INSERT INTO `certificado` VALUES ('zelda@hyrule.edu','EVT-00000001'),('impa@kakariko.org','EVT-00000001'),('link@hyrule.com','EVT-00000001'),('urbosa@gerudo.gov','EVT-00000002'),('link@hyrule.com','EVT-00000002');
+INSERT INTO `certificado` VALUES ('zelda@hyrule.edu','EVT-00000001'),('impa@kakariko.org','EVT-00000001'),('link@hyrule.com','EVT-00000001'),('link@hyrule.com','EVT-00000002'),('urbosa@gerudo.gov','EVT-00000002');
 /*!40000 ALTER TABLE `certificado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -225,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-17 21:31:30
+-- Dump completed on 2025-08-19 12:54:56

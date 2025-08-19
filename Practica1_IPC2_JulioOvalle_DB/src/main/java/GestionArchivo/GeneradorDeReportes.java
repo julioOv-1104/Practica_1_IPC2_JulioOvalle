@@ -5,8 +5,6 @@ import PaqueteEntidades.*;
 import Reportes.*;
 import java.io.*;
 import java.sql.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import javax.swing.JOptionPane;
@@ -15,7 +13,7 @@ public class GeneradorDeReportes {
 
     private Connection conn;
     private String ruta;
-    IFCargaArchivo archivocargado;
+    
 
     public GeneradorDeReportes(Connection conn, String ruta) {
         this.conn = conn;

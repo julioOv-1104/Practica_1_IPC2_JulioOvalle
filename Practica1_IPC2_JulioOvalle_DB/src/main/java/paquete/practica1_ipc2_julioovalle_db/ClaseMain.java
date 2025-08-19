@@ -1,9 +1,5 @@
 package paquete.practica1_ipc2_julioovalle_db;
-
-import GestionArchivo.GeneradorDeReportes;
 import InterfazGrafica.MenuPrincipal;
-import PaqueteDAOs.*;
-import PaqueteEntidades.*;
 import java.sql.*;
 import java.util.Scanner;
 
